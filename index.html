@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffdfa"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b2325"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>매일의 온도</title><link rel="stylesheet" href="./app/style.css"></head><body><div id="jstage">
+<div id="jcal" lang="ko" data-os="ios" data-screen="calendar">
+ <div class="jlayout"><main>
+  <div class="jtoolbar"><button type="button" data-act="jump" class="month-jump" aria-label="연도와 월 선택"><span id="jmonth"></span><span id="jyear" class="jey"></span><span aria-hidden="true" class="jcaret">⌄</span></button><button type="button" id="jview" class="jviewtoggle" data-act="cycleview"></button><button type="button" data-act="search" class="jicon" aria-label="일정 검색"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg></button><button type="button" data-screen="lock" class="jicon" aria-label="잠금화면 꾸미기"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4m-3 14h2"/></svg></button><button type="button" data-act="settings" class="jicon" aria-label="설정"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
+  <div class="jlegendbar"><ul id="jlegend" aria-label="라벨별로 일정 보기·숨기기"></ul><div class="jarrows"><button data-act="prev" aria-label="이전 기간">‹</button><button data-act="today">오늘</button><button data-act="next" aria-label="다음 기간">›</button></div></div>
+
+  <div id="jgrid" aria-label="달력"></div>
+<section class="jagenda" hidden aria-label="선택한 날짜의 일정"><div id="jagendadrag"><button type="button" id="jexpand" aria-label="일정 목록 펼치기" aria-expanded="false"><span></span></button></div><div class="jsection"><h3 id="jagendahead"></h3><span id="jcount"></span><button type="button" data-act="agenda-close" aria-label="일정 목록 닫기">×</button></div><div id="jrows"></div><div class="agenda-actions"><button type="button" data-act="day-add" class="jprimary" id="jdayadd">＋ 일정 추가</button>  <button type="button" id="jmoodday" data-act="mood"><span id="jmoodlabel"></span><span id="jmoodaction"></span></button></div></section>
+ </main><aside hidden><div class="jsection"><button type="button" data-screen="calendar" class="jback" aria-label="달력으로 돌아가기">‹ 달력</button><h3>잠금화면 꾸미기</h3></div>
+  <p class="lkhelp">함께 볼 항목을 선택하세요. 고른 순서대로 위에서부터 표시돼요.</p>
+  <div id="jtypes" aria-label="잠금화면에 함께 표시할 항목"></div>
+  <div class="jlocklabels"><label class="jfilter">표시할 일정<select id="jfilter"></select></label><button type="button" data-act="newlabel">＋ 라벨 추가</button></div>
+  <label class="jlockmood"><input type="checkbox" id="jshowmood"> 잠금화면 달력에 기분 이모지 표시</label>
+  <div class="jphone">
+   <svg viewBox="0 0 300 450" preserveAspectRatio="none" class="jland" aria-hidden="true"><defs><linearGradient id="jsky" x2=".25" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#374963"/><stop offset=".49" stop-color="#8b93a2"/><stop offset="1" stop-color="#e2bbaf"/></linearGradient><linearGradient id="jmount" x2=".7" y2="1"><stop stop-color="#4a696a"/><stop offset="1" stop-color="#253e48"/></linearGradient><linearGradient id="jfront" x2="1" y2=".8"><stop stop-color="#263f4a"/><stop offset="1" stop-color="#122b37"/></linearGradient></defs><rect width="300" height="450" fill="url(#jsky)"/><circle cx="221" cy="257" r="23" fill="#f6e1c3" opacity=".84"/><path d="M0 323 Q40 304 73 295 T154 271 Q175 263 202 273 T300 243 V450 H0Z" fill="#818b91"/><path d="M0 287 Q30 276 60 292 T132 308 Q159 301 193 312 T300 299 V450 H0Z" fill="#667d80"/><path d="M0 351 Q53 349 100 325 T185 295 Q232 267 300 286 V450 H0Z" fill="url(#jmount)"/><path d="M0 317 Q44 317 86 345 T172 365 Q241 354 300 375 V450 H0Z" fill="#35525a"/><path d="M0 402 Q79 382 131 387 T229 366 Q265 354 300 355 V450 H0Z" fill="url(#jfront)"/></svg>
+   <div class="jlock"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg></div><div id="jpdate"></div><div class="jclock"></div><div id="jwidget"></div><div class="jhome"></div>
+  </div>
+  <button id="lkzoom" type="button" aria-pressed="false" hidden>내용 크게 보기</button>
+  <button type="button" id="exportwall" class="jprimary">배경화면 이미지 저장·공유</button><p id="lkplatformnote" class="lkhelp"></p>
+ </aside></div>
+ <div id="appmessage" role="status" hidden></div>
+ <div id="jsheet" hidden></div><div id="backup" hidden></div>
+</div>
+</div>
+<script type="module" src="./app/main.js"></script></body></html>

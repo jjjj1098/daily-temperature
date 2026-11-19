@@ -1,0 +1,430 @@
+
+#jcal{--paper:light-dark(#fff,#1c2125);--ink:light-dark(#202e32,#edf0f0);--sub:light-dark(#58676c,#afbdc2);--rule:light-dark(#e4e8e7,#394347);--wash:light-dark(#f5f7f6,#272f33);--deep:light-dark(#24554f,#a6d8c9);--on:light-dark(#fff,#162f29);font:14px/1.45 "Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:19px;overflow:hidden;position:relative;container-type:inline-size;font-variant-numeric:tabular-nums}
+#jcal *{box-sizing:border-box}#jcal [hidden]{display:none!important}#jcal button,#jcal select,#jcal input{font:inherit;color:inherit}#jcal button{background:transparent;border:0;cursor:pointer;box-shadow:none}@media(hover:hover){#jcal button:hover{filter:brightness(.93)}#jcal button:not(.jprimary,.jviewtoggle,.jcatfilter):hover{background-color:var(--wash)}}#jcal h2,#jcal h3{margin:0;color:inherit}#jcal button:focus-visible,#jcal input:focus-visible,#jcal select:focus-visible{outline:2px solid var(--deep);outline-offset:-2px}#jcal .jbrand,#jcal .jtoolbar,#jcal .jtools,#jcal .jsection,#jcal .jfilter{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#jcal .jbrand{padding:15px 23px;border-bottom:1px solid var(--rule);justify-content:flex-start}#jcal .jbrand strong{font-size:21px;letter-spacing:-1.4px}#jcal .jbrand-sub{font-size:12px;color:var(--sub);border-left:1px solid var(--rule);padding-left:12px}#jcal .jlogo{width:28px;height:28px;background:var(--deep);display:grid;grid-template-columns:repeat(2,5px);grid-template-rows:repeat(2,5px);place-content:center;gap:3px;border-radius:8px;transform:rotate(-5deg)}#jcal .jlogo i{background:var(--on);border-radius:1px}#jcal .jlogo i:last-child{opacity:.45}#jcal button.jprimary{background:var(--deep);color:var(--on);border-radius:9px;padding:8px 13px;font-weight:650}#jcal .jbrand .jprimary{margin-left:auto}#jcal .jlayout{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,29%)}#jcal main{min-width:0;padding:22px 24px 18px}#jcal aside{background:var(--wash);border-left:1px solid var(--rule);padding:21px 18px}#jcal .jey{font-size:12px;font-weight:650;letter-spacing:.08em;color:var(--sub)}#jcal h2{font-size:clamp(33px,5cqw,48px);font-weight:650;line-height:1.18;letter-spacing:-.07em}#jcal h3{font-size:17px;font-weight:680;letter-spacing:-.055em}#jcal .jarrows,#jcal .jseg{display:flex;align-items:center}#jcal .jarrows button{height:34px;min-width:32px;border-radius:8px}#jcal .jarrows button:first-child,#jcal .jarrows button:last-child{font:24px/1 Arial}#jcal .jarrows button:nth-child(2){border:1px solid var(--rule);font-size:12px}#jcal .jtools{margin:14px 0}#jcal .jseg{border-radius:9px;padding:3px;background:var(--wash)}#jcal .jseg button{padding:5px 15px;font-size:12px;border-radius:6px;color:var(--sub)}#jcal .jseg button[aria-pressed=true]{background:var(--paper);box-shadow:0 1px 4px #0002;color:var(--ink);font-weight:650}#jcal .jplain{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--sub)}#jcal .jplain svg,#jcal .jlock svg{width:15px;height:15px}
+#jcal .jweeknames,#jcal .jdates{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}#jcal .jweeknames span{padding:5px 0 7px;text-align:center;font-size:11px;color:var(--sub)}#jcal .jweeknames span:first-child{color:#b76c6a}#jcal .jdates{border-top:1px solid var(--rule)}#jcal .jcell{display:flex;align-items:center;flex-direction:column;gap:3px;min-width:0;min-height:61px;padding:6px 2px 2px;border-bottom:1px solid var(--rule);border-radius:0}#jcal .jcell.out{opacity:.4}#jcal .jcell.sel{background:color-mix(in srgb,var(--deep) 6%,var(--paper))}#jcal .jnum{min-width:24px;height:24px;display:grid;place-content:center;font-size:13px;border-radius:50%}#jcal .sel .jnum{background:var(--deep);color:var(--on)}#jcal .jcell.today:not(.sel) .jnum{box-shadow:inset 0 0 0 1px var(--deep)}#jcal .eventmark{max-width:100%;display:flex;align-items:center;gap:3px;font-size:11px;color:var(--sub)}#jcal .eventmark b{font-weight:450;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#jcal .dot{display:inline-block;width:6px;height:6px;background:var(--ec);border-radius:50%;flex:none}#jcal .jagenda{margin-top:20px}#jcal .jsection>span{font-size:12px;color:var(--sub)}#jcal .jrow{display:grid;width:100%;grid-template-columns:48px 4px 1fr auto;gap:10px;align-items:center;text-align:left;padding:10px 0;border-bottom:1px solid var(--rule);border-radius:0}#jcal .jrow time{font-size:13px;color:var(--sub)}#jcal .jrow i{background:var(--ec);height:18px;border-radius:2px}#jcal .jrow b{font-size:14px;font-weight:580;overflow-wrap:anywhere}#jcal .jrow small{font-size:11px;color:var(--sub)}#jcal .jad{margin-top:18px;background:var(--wash);border-radius:7px;display:flex;align-items:center;justify-content:center;gap:7px;height:38px;color:var(--sub);font-size:11px}#jcal .jad small{border:1px solid var(--rule);border-radius:3px;padding:0 3px;font-size:10px}
+#jcal .jphone{position:relative;isolation:isolate;width:min(100%,245px);aspect-ratio: .65;margin:16px auto;color:#fff;border:4px solid #222d32;border-radius:32px;overflow:hidden;text-align:center;box-shadow:0 8px 16px #182c391a}#jcal .jland{position:absolute;inset:0;width:100%;height:100%;z-index:-1}#jcal .jlock{margin:7% auto 2%;height:17px}#jpdate{font-size:12px;color:#f3f6fa}#jcal .jclock{font:600 clamp(48px,7.5cqw,76px)/1.05 "Arial",sans-serif;letter-spacing:-5px;color:#f7f8fa}#jwidget{width:75%;margin:8px auto 0;color:white}#jcal .minilabel{font-size:10px;font-weight:650;text-align:center;letter-spacing:.04em}#jcal .minigrid{margin:3px auto 0;max-width:118px;display:grid;grid-template-columns:repeat(7,1fr);font:600 10px/1.45 Arial,sans-serif}#jcal .miniN{position:relative;border-radius:4px}#jcal .miniN.on{background:#f4f6f7;color:#455367}#jcal .miniN.has:after{content:"";width:2px;height:2px;background:currentColor;position:absolute;bottom:0;left:calc(50% - 1px);border-radius:50%}#jcal .jhome{position:absolute;width:30%;height:3px;background:#ffffffcf;border-radius:4px;bottom:9px;left:35%}#jcal .lockevent{font-size:12px;text-align:left;display:block;overflow-wrap:anywhere;margin-top:3px}#jcal #jtypes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:15px auto;max-width:290px}#jcal #jtypes button{border:1px solid var(--rule);background:var(--paper);border-radius:9px;padding:8px 1px;font-size:12px}#jcal #jtypes button[aria-pressed=true]{border-color:var(--deep);color:var(--deep);font-weight:650;background:color-mix(in srgb,var(--deep) 7%,var(--paper))}#jcal .jfilter{font-size:12px;color:var(--sub);margin:auto;max-width:290px}#jcal select,#jcal input{border:1px solid var(--rule);background:var(--paper);padding:6px;border-radius:6px;min-width:0}
+#jcal .timegrid{display:grid;grid-template-columns:32px repeat(var(--cols),minmax(0,1fr));min-width:0;border-bottom:1px solid var(--rule)}#jcal .timehead{font-size:11px;padding:4px 0;text-align:center;color:var(--sub)}#jcal .hours,#jcal .timecol{position:relative;height:var(--height);background:repeating-linear-gradient(to bottom,var(--rule) 0 1px,transparent 1px var(--hour))}#jcal .hours small{position:absolute;left:0;font-size:10px;color:var(--sub)}#jcal .timecol{border-left:1px solid var(--rule)}#jcal .block{position:absolute;border-left:3px solid var(--ec);background:color-mix(in srgb,var(--ec) 20%,var(--paper));border-radius:3px;padding:1px 2px;font-size:11px;overflow:hidden;text-align:left;word-break:break-all}
+#jsheet{position:absolute;z-index:5;inset:0;background:#12202b60;padding:22px;display:flex;align-items:flex-start;justify-content:center}#jcal .panel{position:sticky;top:12px;width:min(100%,370px);margin-top:28px;background:var(--paper);padding:20px;border-radius:16px;box-shadow:0 16px 60px #0002}#jcal .panel label{display:grid;gap:4px;margin:10px 0;font-size:12px;color:var(--sub)}#jcal .panel input,#jcal .panel select{width:100%;font-size:14px}#jcal .panel .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}#jcal .panel .colorline{display:flex;justify-content:space-between;align-items:center}#jcal .panel [type=color]{width:50px;height:32px;padding:2px}#jcal .panel footer{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}#jcal .jempty{font-size:13px;color:var(--sub);padding:12px 0}#jcal .jclose{font-size:20px}#jcal #jerr{color:#b74a41}
+@container(max-width:680px){#jcal .jlayout{grid-template-columns:1fr}#jcal main{padding:18px 15px}#jcal aside{border-left:0;border-top:1px solid var(--rule);padding:18px}#jcal .jphone{width:225px}#jcal .jclock{font-size:62px}#jcal .jbrand{padding:12px 15px}#jcal .jcell{min-height:57px}}
+@container(max-width:380px){#jcal .eventmark b{display:none}#jcal .jcell{min-height:48px}#jcal .jbrand-sub{display:none}}
+
+
+#jcal .month-headers span{font-weight:580;letter-spacing:.03em}
+#jcal .month-matrix{align-items:stretch;border-left:1px solid var(--rule);border-radius:0}
+#jcal .month-matrix .jcell{min-height:80px;align-items:stretch;justify-content:flex-start;gap:2px;padding:3px 1px 5px;border-right:1px solid var(--rule);text-align:start}
+#jcal .month-matrix .jnum{align-self:flex-start;min-width:22px;height:22px;margin-left:1px;font-weight:590}
+#jcal .month-matrix .jcell:nth-child(7n+1):not(.sel) .jnum{color:light-dark(#a2474a,#fd979a)}
+#jcal .month-matrix .jcell.out{opacity:1;background:var(--wash);color:var(--sub)}
+#jcal .month-matrix .month-event{display:block;flex:none;width:100%;border-radius:3px;padding:2px 2px;font-size:11px;font-weight:610;letter-spacing:-.035em;line-height:1.28;word-break:keep-all;overflow-wrap:anywhere;background:color-mix(in srgb,var(--ec) 34%,var(--paper));color:var(--ink)}
+@container(min-width:371px){#jcal .month-matrix .month-event{font-size:12px}}
+
+
+#jstage{padding:12px 0 18px;display:grid;justify-items:center;gap:11px}
+#jplatforms{display:flex;gap:3px;padding:3px;background:light-dark(#e9edeb,#303537);border-radius:20px;font:600 12px/1.3 Arial,sans-serif}
+#jplatforms button{border:0;padding:6px 14px;background:transparent;color:light-dark(#566762,#c0cbc6);border-radius:17px;cursor:pointer}
+#jplatforms button[aria-pressed=true]{background:light-dark(#fff,#454f4b);color:light-dark(#1f3430,#fff);box-shadow:0 1px 3px #0002}
+#jstage #jcal{box-sizing:border-box;width:min(100%,416px);border-radius:28px;box-shadow:0 5px 22px #21352d13;letter-spacing:-.025em}
+#jcal .jstatus{height:30px;display:flex;justify-content:space-between;align-items:center;padding:4px 23px 0;position:relative;font:600 12px/1 Arial,sans-serif}
+#jcal .jcamera{position:absolute;left:50%;top:7px;transform:translateX(-50%);background:#182020;border-radius:24px;width:48px;height:12px}
+#jcal[data-os=android] .jcamera{width:9px;height:9px;top:10px}
+#jcal .jindicators{display:flex;align-items:center;gap:3px}
+#jcal .jindicators svg{width:12px;height:12px}
+#jcal .jbattery{display:inline-block;width:16px;height:8px;border:1px solid currentColor;border-radius:2px;background:currentColor;box-shadow:inset 0 0 0 1px var(--paper)}
+#jcal .jbrand{border:0;padding:9px 16px 1px}#jcal .jbrand strong{font-size:17px}#jcal .jlogo{width:23px;height:23px;border-radius:7px}
+#jcal .jbrand-sub{display:none}#jcal .jbrand .jprimary{font-size:12px;min-height:34px;padding:5px 11px}
+#jcal .jlayout{display:block}#jcal main{padding:12px 0 0}
+#jcal .jtoolbar,#jcal .jtools{padding:0 16px}#jcal .jtoolbar>div:first-child{display:flex;gap:6px;align-items:baseline}
+#jcal .jey{font-size:15px;letter-spacing:-.05em}#jcal h2{font-size:32px}#jcal .jtools{margin:8px 0 9px}
+#jcal .jagenda{padding:0 15px}#jcal[data-view="0"] .jagenda{display:none}
+#jcal .jad{margin:10px 12px 8px;height:32px}#jcal .jtabs{display:flex;justify-content:space-evenly;border-top:1px solid var(--rule);padding:4px 0 0}
+#jcal .jtabs button{min-height:43px;min-width:76px;display:grid;place-items:center;align-content:center;gap:2px;font-size:11px;color:var(--sub);border-radius:7px;font-weight:550}#jcal .jtabs svg{width:17px;height:17px}#jcal .jtabs button[aria-pressed=true]{color:var(--deep);font-weight:700}#jcal .jgesture{width:82px;height:4px;border-radius:5px;background:var(--ink);margin:5px auto}
+#jcal[data-os=android] .jgesture{width:61px;height:3px}#jcal[data-os=android] .jbrand .jprimary{border-radius:18px}
+#jcal aside{background:var(--paper);border:0;padding:18px 20px 22px}#jcal .jphone{width:200px;aspect-ratio:.64;margin:12px auto}
+#jcal[data-os=android] .jphone{border-radius:18px}#jcal[data-screen=lock] .jbrand .jprimary{visibility:hidden}#jcal .jclock{font-size:56px}
+@media(pointer:coarse){#jcal .jarrows button,#jcal .jseg button,#jcal .jplain,#jcal .jbrand .jprimary{min-height:44px}#jcal .jarrows button{min-width:44px}}
+@media(max-width:360px){#jstage #jcal{border-radius:16px}#jcal .jtoolbar,#jcal .jtools{padding:0 10px}}
+
+
+
+#jlegend{display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap;list-style:none;margin:0;padding:0 16px 10px;color:var(--ink)}
+#jlegend li{display:inline-flex;align-items:center;gap:5px;font-size:12px;max-width:100%;overflow-wrap:anywhere}
+#jcal .jlabelhead,#jcal .jlabelrow{display:grid;grid-template-columns:minmax(0,1fr) 44px;align-items:center;gap:8px}
+#jcal .jlabelhead{font-size:12px;color:var(--sub);margin:14px 0 5px}
+#jlabelrows{max-height:min(54vh,350px);overflow:auto}
+#jcal .jlabelrow{margin-bottom:6px}
+#jcal .jlabelrow input{height:38px}
+#jcal .jlabelrow input[type=color]{width:44px}
+#jcal #jlabelform footer{justify-content:space-between}
+#jcal .jed-labelhead{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:8px}
+#jcal .panel .jed-labelhead label{margin:0}
+#jcal #jeditlabels{padding:6px 9px;color:var(--deep);background:var(--wash);border-radius:7px;font-size:14px;font-weight:650}
+#jcal #jeditcat{margin-top:3px}
+#jcal #jlabeladd{color:var(--deep);font-weight:650}
+#jlegend i{display:inline-block;width:12px;height:9px;background:color-mix(in srgb,var(--ec) 34%,var(--paper));border-inline-start:4px solid var(--ec);border-radius:2px}
+#jcal .jallday{padding:2px 1px 5px;border-inline-start:1px solid var(--rule)}
+#jcal .jallday button{display:block;width:100%;margin:1px 0;padding:3px;background:color-mix(in srgb,var(--ec) 30%,var(--paper));border-radius:3px;font-size:11px;text-align:start;overflow-wrap:anywhere}
+
+
+
+
+#jcal .panel:has(#jform){box-sizing:border-box;max-height:min(92%,calc(100svh - 55px));overflow:auto;overscroll-behavior:contain;margin-top:6px;padding:16px}
+/* event form: one control size (44px), grouped cards, same label style everywhere */
+#jcal #jform{display:grid;gap:12px}
+#jcal #jform label{margin:12px 0;gap:8px;font-size:15px;font-weight:600;color:var(--ink)}
+#jcal #jform input:not([type=checkbox]),#jcal #jform select,#jcal #jform textarea{width:100%;height:48px;padding:0 14px;border:1px solid var(--rule);border-radius:10px;background:var(--paper);color:var(--ink);font:inherit;font-size:17px;font-weight:400}
+#jcal #jform textarea{height:auto;min-height:6em;padding:10px 12px;resize:vertical}
+#jcal #jform input.jed-title{height:auto;margin:6px 0 8px;padding:2px 0 2px 14px;border:0;border-left:5px solid var(--tc,var(--deep));border-radius:0;background:transparent;font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.25}
+#jcal #jform .jed-title::placeholder{color:color-mix(in srgb,var(--sub) 55%,transparent)}
+#jcal #jform .jed-title:focus-visible{outline:0}
+#jcal #jform .jed-group{background:var(--wash);border-radius:14px;padding:2px 12px}
+#jcal #jform .jed-labelhead>span{font-size:15px;font-weight:600;color:var(--ink)}
+#jcal #jform .jed-span{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:14px 0 12px}
+#jcal #jform .jed-pt{display:grid;gap:1px;min-width:0}
+#jcal #jform .jed-pt label{position:relative;display:block;margin:0;cursor:pointer;color:var(--ink)}
+#jcal #jform .jed-pd span{font-size:15px;font-weight:500}
+#jcal #jform .jed-t span{display:block;font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.15;white-space:nowrap}
+#jcal #jform .jed-t small{margin-right:4px;font-size:15px;font-weight:600}
+#jcal #jform .jed-timegroup.allday .jed-pd span{font-size:18px;font-weight:700;white-space:nowrap}
+#jcal #jform .jed-pt input{position:absolute;inset:0;width:100%;height:100%;min-width:0;padding:0;border:0;opacity:0;font-size:16px;-webkit-appearance:none;appearance:none;cursor:pointer}
+#jcal #jform .jed-pt input:disabled{cursor:default}
+#jcal #jform .jed-pt label:has(input:focus-visible){outline:2px solid var(--deep);outline-offset:3px;border-radius:6px}
+#jcal #jform .jed-arrow{font-size:26px;line-height:1;color:var(--sub)}
+#jcal #jform .jed-pill{position:relative;margin:0 0 0 auto;padding:7px 14px;border:1.5px solid var(--rule);border-radius:999px;background:var(--paper);color:var(--sub);font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+#jcal #jform .jed-pill input{position:absolute;opacity:0;pointer-events:none}
+#jcal #jform .jed-pill:has(input:checked){border-color:var(--deep);background:var(--deep);color:var(--on)}
+#jcal #jform .jed-pill:has(input:focus-visible){outline:2px solid var(--deep);outline-offset:2px}
+#jcal #jform .jed-row{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:50px;padding:0;border-top:1px solid var(--rule);border-radius:0;font-size:16px;color:var(--ink)}
+#jcal #jform .jed-rowval{color:var(--sub)}
+#jcal #jform .jed-rule{display:flex;align-items:flex-end;gap:8px}
+#jcal #jform .jed-rule>label:first-child{flex:1;min-width:0}
+#jcal #jform .jed-interval{width:34%}
+#jcal #jform .jed-allday{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;margin:4px 0;font-size:16px;font-weight:500;color:var(--ink)}
+#jcal #jform .jed-allday input{appearance:none;flex:none;position:relative;width:44px;height:26px;margin:0;border-radius:13px;background:var(--rule);cursor:pointer;transition:background .15s}
+#jcal #jform .jed-allday input::before{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:transform .15s}
+#jcal #jform .jed-allday input:checked{background:var(--deep)}
+#jcal #jform .jed-allday input:checked::before{transform:translateX(18px)}
+#jcal #jform .jed-allday input:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+#jcal #jform .jed-labelhead{margin:10px 0 6px}
+#jcal #jform .jed-labelhead label{margin:0}
+#jcal #jform .jed-group>select{margin-bottom:10px}
+#jcal #jform #jerr:empty{display:none}
+#jcal .jed-picker{border:1px solid var(--rule);border-radius:10px;padding:8px}
+#jcal .jed-month{display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:600}
+#jcal .jed-month button{font-size:20px;min-width:32px}
+#jcal .jed-days,#jcal .jed-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center}
+#jcal .jed-days small{color:var(--sub);padding:2px}
+#jcal .jed-days button,#jcal .jed-week button{padding:3px 0;min-height:36px;font-size:15px;border-radius:8px}
+#jcal .jed-week button{background:var(--wash)}
+#jcal .jed-days button[aria-pressed=true],#jcal .jed-week button[aria-pressed=true]{background:var(--deep);color:var(--on);font-weight:650}
+#jcal .jed-picked,#jcal .jed-note{margin:6px 0 0;font-size:14px;color:var(--sub);overflow-wrap:anywhere}
+
+
+#jcal .lkmodule{min-width:0;width:100%;border-radius:13px;overflow:hidden;background:#172128f5;color:#f5f7f8;text-align:left;letter-spacing:-.02em;box-shadow:0 2px 10px #0e182218}
+#jcal .lkmodule .lkhead{display:flex;align-items:baseline;justify-content:space-between;gap:7px;padding:9px 10px 7px}
+#jcal .lkmodule .lkhead h4{font-size:13px;line-height:1.3;font-weight:660;color:#fff;margin:0}
+#jcal .lkmodule .lkhead>span{font-size:11px;line-height:1.3;color:#cad2d6;white-space:nowrap}
+#jcal .lkmonth{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid #455056;background:#1a2328}
+#jcal .lkdow{font-size:10px;color:#c1c9cc;text-align:center;padding:3px 0;font-weight:600;background:#222b30}
+#jcal .lkdow:first-child,#jcal .lkcell:nth-child(7n+1) .lkday{color:#ffaaa3}
+#jcal .lkcell{display:flex;flex-direction:column;align-items:stretch;min-width:0;gap:2px;min-height:34px;border-top:1px solid #404a50;border-right:1px solid #39454a;padding:2px 1px 3px}
+#jcal .lkcell:nth-child(7n){border-right:0}#jcal .lkcell.lkout{background:#222c31}#jcal .lkcell.lkout .lkday{color:#a9b5ba}
+#jcal .lkcell .lkday{align-self:flex-start;min-width:17px;text-align:center;margin-left:1px;font-size:11px;line-height:17px;font-weight:600}
+#jcal .lkcell .lkday.lkfocus{color:#152a25;background:#aedabe;border-radius:8px}
+#jcal .lkbar{display:block;padding:1px 2px;border-left:2px solid var(--ec);border-radius:2px;background:color-mix(in srgb,var(--ec) 44%,#202329);color:#fff;font-size:11px;line-height:1.22;font-weight:550;letter-spacing:-.055em;word-break:normal;overflow-wrap:anywhere}
+#jcal .lkagenda{padding:0 10px 7px}
+#jcal .lkgroup{display:grid;grid-template-columns:39px minmax(0,1fr);gap:5px;border-top:1px solid #445056;padding:4px 0}
+#jcal .lkgroup .lkdate{color:#c5ced1;font-size:11px;line-height:19px;white-space:nowrap}
+#jcal .lkgroup .lkdate.now{color:#b1e4c7;font-weight:650}
+#jcal .lkitem{display:grid;grid-template-columns:4px 34px minmax(0,1fr);gap:5px;align-items:baseline;padding:2px 0;color:#fafafa;line-height:1.28;font-size:12px}
+#jcal .lkitem i{align-self:stretch;min-height:9px;margin:2px 0;background:var(--ec);border-radius:2px}
+#jcal .lkitem time{font-size:11px;color:#d2dcdf;white-space:nowrap}
+#jcal .lkitem b{font-weight:550;overflow-wrap:anywhere}
+#jcal .lkempty{margin:0;padding:1px 0 5px;font-size:12px;color:#c5ced1}
+
+
+#jcal .lkhelp{font-size:12px;color:var(--sub);margin:8px 0 10px;line-height:1.55}
+#jcal aside{padding:12px 12px 14px}
+#jcal #jtypes{grid-template-columns:1fr 1fr;max-width:none;margin:9px 0 12px}
+#jcal #jtypes button{display:flex;align-items:center;gap:7px;min-height:37px;text-align:left;padding:6px 10px}
+#jcal #jtypes button span{display:grid;place-content:center;border-radius:50%;background:var(--wash);color:var(--sub);width:18px;height:18px;font:600 11px Arial,sans-serif}
+#jcal #jtypes button[aria-pressed=true] span{color:var(--on);background:var(--deep)}
+#jcal aside .jphone{width:100%;aspect-ratio:1 / 2.13;box-sizing:content-box;max-width:calc(100% - 6px);margin:10px auto 12px;border-width:3px;border-radius:25px;background:#354751}
+#jcal .jphone.lkexpanded{aspect-ratio:auto;padding-bottom:25px}
+#jcal .jlock{margin:12px auto 4px;height:15px}
+#jcal .jclock{font-size:51px;line-height:1.06;letter-spacing:-3px}
+#jcal #jwidget{position:relative;width:calc(100% - 12px);margin:8px auto 0;display:grid;gap:6px;transform-origin:center top}
+#jcal #lkzoom{display:block;margin:4px auto 12px;color:var(--deep);font-size:12px;text-decoration:underline}
+#jcal .jfilter{max-width:none}#jcal #lkplatformnote{margin:10px 0 0}
+
+
+#jcal .jlegendbar,#jcal .jlocklabels{display:flex;align-items:center;justify-content:space-between;gap:6px}
+#jcal .jlegendbar{padding:0 12px 8px}
+#jcal .jlegendbar #jlegend{padding:0;min-width:0;column-gap:9px}
+#jcal button[data-act=newlabel]{flex:none;min-height:34px;padding:5px 8px;border-radius:8px;font-size:12px;font-weight:650;background:var(--wash);color:var(--deep)}
+#jcal .jlocklabels .jfilter{margin:0;flex:1;min-width:0;justify-content:flex-start}
+#jcal .jlocklabels select{max-width:52%}
+@media(pointer:coarse){#jcal button[data-act=newlabel]{min-height:44px}}
+
+
+#jcal .jweather{display:grid;place-content:center;background:#ffe3a6;color:#744324;font:18px/1 Georgia,serif;transform:none}
+#jcal .jbrand strong{white-space:nowrap}
+#jcal #jmoodday{display:flex;align-items:center;justify-content:space-between;gap:8px;width:calc(100% - 24px);margin:0 12px 8px;padding:7px 10px;background:light-dark(#fcf4e8,#382f24);color:light-dark(#6a4526,#f3d9ae);border-radius:8px;text-align:left;font-size:12px}
+#jmoodaction{font-weight:650}#jmoodlabel{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#jcal .jmooddate{display:flex;align-items:center;gap:1px}#jcal .jmoodemoji{font-size:12px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji",sans-serif}
+#jcal .jlockmood{display:flex;gap:5px;align-items:center;font-size:12px;color:var(--sub);margin:7px 0}
+#jcal .jlockmood input{accent-color:var(--deep)}
+
+
+#jcal #jmoodform{margin-top:8px}
+#jcal .jmoodstamp{margin:0 0 10px;color:var(--sub);font-size:13px}
+#jcal .jmoodchoices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+#jcal .jmoodchoices button{display:grid;place-items:center;gap:2px;min-height:58px;padding:5px 0;border:1px solid var(--rule);border-radius:10px;font-size:12px;color:var(--sub)}
+#jcal .jmoodchoices button span:first-child{font-size:21px;line-height:1.2}
+#jcal .jmoodchoices button[aria-pressed=true]{border-color:var(--deep);color:var(--deep);background:color-mix(in srgb,var(--deep) 8%,var(--paper));font-weight:650}
+#jcal #jmoodform .jmoodcustom{margin-top:14px;font-size:13px}
+#jcal #jmoodform .jmoodcustom input{padding:8px 10px;font-size:16px}
+#jcal #jmooderror{color:light-dark(#a93d35,#ffb2aa);font-size:12px}
+#jcal #jmoodremove{margin-right:auto;font-size:12px;color:var(--sub)}
+
+/* The app shell owns one scrollable page between the header and bottom tabs. */
+#jcal .jtoolactions { display: flex; align-items: center; gap: 4px; }
+#jcal .jtoolactions svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+#jcal #jmatches { color: var(--sub); font-size: 13px; }
+#jcal #jmatches .jrow { grid-template-columns: 76px 3px minmax(0, 1fr) minmax(0, 22%); gap: 7px; min-height: 44px; }
+#jcal #jmatches time { white-space: nowrap; }
+#jcal #jmatches small { overflow-wrap: anywhere; text-align: end; }
+#jcal .panel footer { flex-wrap: wrap; }
+:root {
+  color-scheme: light;
+  --temperature-ad-inset: 0px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+html, body { margin: 0; height: 100%; }
+body { background: #f0f2ef; background: light-dark(#f0f2ef, #121819); }
+#jstage {
+  display: block;
+  height: 100%;
+  height: 100dvh;
+  padding: 0 max(0px, var(--safe-right)) 0 max(0px, var(--safe-left));
+  box-sizing: border-box;
+}
+.has-temperature-banner #jstage { height: 100%; }
+#jstage #jcal {
+  width: min(100%, 820px);
+  height: 100%;
+  margin-inline: auto;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  --paper: #fffdfa;
+  --ink: #202e32;
+  --sub: #566669;
+  --rule: #e2e6e1;
+  --wash: #f1f4ee;
+  --deep: #24554f;
+  --on: #fff;
+}
+:root[data-palette="dark"] { color-scheme: dark; }
+:root[data-palette="dark"] #jstage #jcal {
+    --paper: #1b2325; --ink: #edf1ee; --sub: #b3bfbd; --rule: #394447;
+    --wash: #293337; --deep: #a6d8c9; --on: #162f29;
+}
+#jcal .jlayout { display: block; flex: 1; min-height: 0; overflow: hidden; }
+#jcal .jlayout > :is(main,aside) { height: 100%; box-sizing: border-box; overflow: auto; overscroll-behavior: contain; }
+#jcal .jlayout main { padding-top: 16px; }
+#jcal aside { max-width: 470px; margin-inline: auto; }
+#jcal aside .jphone { max-width: min(calc(100% - 6px), 364px); }
+#jcal .jlock svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+#jcal #backup { margin: 10px 14px 0; }
+#jcal #exportwall { display: block; width: 100%; min-height: 44px; }
+#jcal #exportwall:disabled { opacity: .45; }
+#jcal #appmessage {
+  position: absolute; bottom: calc(16px + var(--safe-bottom)); left: 50%;
+  z-index: 6; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px);
+  padding: 10px 13px; border-radius: 10px; background: var(--ink); color: var(--paper);
+  font-size: 13px; box-shadow: 0 4px 16px #0003; pointer-events: none;
+}
+#jcal #jsheet {
+  align-items: flex-end;
+  padding: calc(var(--safe-top) + 8px) 0 0;
+}
+#jcal #jsheet .panel {
+  position: relative; top: auto; width: min(100%, 480px); max-height: 100%;
+  overflow-y: auto; overscroll-behavior: contain; margin: 0;
+  padding: 16px 18px calc(16px + var(--safe-bottom)); border-radius: 18px 18px 0 0;
+}
+#jcal #jsheet .panel > .jsection { position: sticky; top: -16px; z-index: 1; background: var(--paper); }
+#jcal #jsheet .jclose { width: 42px; height: 42px; }
+#jcal .panel input:not([type=checkbox]), #jcal .panel select { font-size: 16px; }
+@container (min-width: 650px) {
+  #jcal .jlayout main { padding: 18px 18px 0; }
+  #jcal .jcell .month-event { font-size: 13px; }
+  #jcal #jsheet { justify-content: center; align-items: center; padding: 24px; }
+  #jcal #jsheet .panel { border-radius: 18px; }
+}
+#jcal .appearance {
+  display:flex; flex:none; align-items:center; justify-content:space-between;
+  gap:8px; padding:6px 14px; color:var(--sub); border-bottom:1px solid var(--rule); font-size:12px;
+}
+#jcal .appearance > div { display:flex; gap:2px; padding:2px; border-radius:9px; background:var(--wash); }
+#jcal .appearance button { min-height:34px; padding:4px 10px; border-radius:7px; font-size:12px; }
+#jcal .appearance button[aria-pressed=true] { background:var(--paper); color:var(--deep); font-weight:650; box-shadow:0 1px 3px #0002; }
+#jcal .jaddtab > span:first-child { font-size:23px; line-height:20px; }
+#jcal .jaddtab:disabled { opacity:.5; }
+#jcal .panel .appearance { padding:14px 0; border-bottom:0; flex-wrap:wrap; }
+@media (pointer:coarse) { #jcal .appearance button {min-height:42px;} }
+@media (min-width:650px) {
+  html.web-preview #jstage { display:grid; place-items:center; }
+  html.web-preview #jstage #jcal { width:390px; height:min(844px,100dvh); border:1px solid var(--rule); border-radius:22px; box-shadow:0 12px 40px #12252b18; }
+}
+:root:not([data-palette=dark]) #jcal .jphone :is(.jclock,#jpdate,.jlock) { color:#2c4444; }
+:root:not([data-palette=dark]) #jcal .lkmodule { color:#253738; background:#fffdf9f7; }
+:root:not([data-palette=dark]) #jcal .lkmodule :is(h4,.lkitem,.lkbar) { color:#243739; }
+:root:not([data-palette=dark]) #jcal .lkmodule :is(.lkhead>span,.lkdate,.lkitem time,.lkempty,.lkdow) { color:#536666; }
+:root:not([data-palette=dark]) #jcal .lkmonth { background:#fffdf9; border-color:#ccd8d2; }
+:root:not([data-palette=dark]) #jcal .lkcell,:root:not([data-palette=dark]) #jcal .lkgroup { border-color:#d3ddd7; }
+:root:not([data-palette=dark]) #jcal :is(.lkdow,.lkcell.lkout) { background:#f0f4ee; }
+:root:not([data-palette=dark]) #jcal .lkcell.lkout .lkday { color:#647571; }
+:root:not([data-palette=dark]) #jcal :is(.lkdow:first-child,.lkcell:nth-child(7n+1) .lkday) { color:#a83e40; }
+:root:not([data-palette=dark]) #jcal .lkgroup .lkdate.now { color:#286451; }
+:root:not([data-palette=dark]) #jcal .lkbar { background:color-mix(in srgb,var(--ec) 33%,#fffdf9); }
+:root:not([data-palette=dark]) #jcal .jhome { background:#274244; }
+#jcal .jlayout main { display:flex; flex-direction:column; padding:0; overflow:hidden; }
+#jcal .jtoolbar { flex:none; display:flex; align-items:center; gap:2px; padding:calc(var(--safe-top) + 6px) 8px 6px 14px; }
+#jcal .month-jump { display:flex; align-items:baseline; gap:5px; padding:0; text-align:left; }
+#jcal #jmonth { font-size:32px; font-weight:750; letter-spacing:-.05em; line-height:1.1; }
+#jcal .jlegendbar { flex:none; padding:0 15px 8px; overflow:auto; }
+#jcal #jlegend { flex-wrap:nowrap; white-space:nowrap; padding:0; }
+#jcal #jgrid { flex:1; min-height:90px; overflow:auto; overscroll-behavior:contain; touch-action:pan-y; position:relative; }
+#jcal .calendar-month > h3 { padding:8px 12px 4px; font-size:14px; color:var(--sub); }
+#jcal .calendar-month { padding-bottom:15px; }
+#jcal .month-matrix { border-left:0; }
+#jcal .month-matrix .jcell { min-height:85px; border-right:0; padding:4px 2px; gap:3px; }
+#jcal .month-matrix .month-event { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500; padding:2px 3px; font-size:11px; line-height:16px; }
+#jcal .month-more { font-size:10px; color:var(--sub); padding-left:3px; }
+#jcal .month-matrix .jcell.sel { box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--deep) 50%,transparent); background:var(--wash); border-radius:5px; }
+#jcal .month-matrix .sel:not(.today) .jnum { background:transparent; color:var(--ink); }
+#jcal .month-matrix .today .jnum { background:var(--deep); color:var(--on); box-shadow:none; }
+#jcal main .jagenda { flex:none; display:flex; flex-direction:column; padding:0 14px 8px; margin:0; max-height:38%; min-height:140px; border-top:1px solid var(--rule); border-radius:15px 15px 0 0; box-shadow:0 -4px 12px #132b2210; background:var(--paper); }
+#jcal main .jagenda.expanded { max-height:70%; }
+#jcal[data-view="0"] main .jagenda:not([hidden]) { display:flex; }
+#jcal #jagendadrag { display:flex; justify-content:center; height:21px; flex:none; }
+#jcal #jexpand { width:72px; height:21px; display:grid; place-items:center; }
+#jcal #jexpand span { width:32px; height:3px; border-radius:4px; background:var(--rule); }
+#jcal .jagenda .jsection { gap:6px; flex:none; }
+#jcal .jagenda h3 { font-size:19px; margin-right:auto; }
+#jcal .jagenda [data-act="agenda-close"] { font-size:22px; width:30px; height:30px; color:var(--sub); }
+#jcal #jrows { overflow:auto; min-height:0; overscroll-behavior:contain; }
+#jcal .jrow { grid-template-columns:58px 4px minmax(0,1fr) auto; gap:10px; min-height:62px; }
+#jcal .jrow time small { display:block; opacity:.7; font-size:13px; }
+#jcal .jrow i { height:30px; }
+#jcal .agenda-actions { display:flex; gap:7px; flex:none; padding-top:7px; }
+#jcal .agenda-actions [data-act="day-add"] { flex:1; min-height:46px; border-radius:12px; font-size:16px; }
+#jcal .agenda-actions #jmoodday { width:auto; margin:0; padding:7px; flex:none; }
+#jcal .agenda-actions #jmoodlabel { display:none; }
+#jcal .settings-action { display:block; color:var(--deep); margin-top:14px; padding:10px 0; }
+#jcal .detail-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px; }
+#jcal .event-detail h4 { font-size:20px; margin:10px 0; overflow-wrap:anywhere; }
+#jcal .event-detail p { color:var(--sub); white-space:pre-wrap; overflow-wrap:anywhere; }
+#jcal .alarm-row { display:flex; gap:6px; align-items:center; margin:0 0 8px; }
+#jcal .alarm-row select { flex:1; }
+#jcal .alarm-row button { width:36px; height:44px; flex:none; color:var(--sub); font-size:18px; }
+#jcal #alarmadd { padding:6px 9px; color:var(--deep); background:var(--paper); border-radius:7px; font-size:14px; font-weight:650; }
+#jcal #jform #jeditlabels { background:var(--paper); }
+#jcal #alarmrows:empty::before { content:"알림 없음"; display:block; padding:0 0 10px; font-size:13px; color:var(--sub); }
+#jcal .collision { background:var(--wash); border-radius:7px; padding:9px; font-size:12px; color:var(--sub); }
+#jcal .month-matrix .month-event.span-continues { border-top-right-radius:0; border-bottom-right-radius:0; }
+#jcal .month-matrix .month-event.span-from { border-top-left-radius:0; border-bottom-left-radius:0; }
+@media (max-width: 359px) {
+}
+@supports not (background: color-mix(in srgb, red 20%, white)) {
+  #jcal .month-matrix .month-event, #jcal .block, #jcal .lkbar, #jcal .jallday button {
+    border-left: 3px solid var(--ec);
+    background: var(--wash); color: var(--ink);
+  }
+}
+#jcal .timecol{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#jcal .slotsel{position:absolute;left:0;right:0;pointer-events:none;background:color-mix(in srgb,var(--deep) 14%,transparent);box-shadow:inset 0 0 0 1.5px var(--deep);border-radius:3px}
+#jcal .event-detail a{color:var(--deep);overflow-wrap:anywhere}
+/* accent themes (설정 → 강조 색); wash follows the accent so cards pick up a faint tint */
+:root #jstage #jcal[data-accent]{--wash:color-mix(in srgb,var(--deep) 6%,var(--paper))}
+:root #jstage #jcal[data-accent=sea]{--deep:#2f5d8a}
+:root #jstage #jcal[data-accent=lavender]{--deep:#5a4e8c}
+:root #jstage #jcal[data-accent=sunset]{--deep:#a04f36}
+:root #jstage #jcal[data-accent=ink]{--deep:#3a4247}
+:root[data-palette=dark] #jstage #jcal[data-accent]{--wash:color-mix(in srgb,var(--deep) 8%,var(--paper))}
+:root[data-palette=dark] #jstage #jcal[data-accent=sea]{--deep:#a8c7e8;--on:#13243a}
+:root[data-palette=dark] #jstage #jcal[data-accent=lavender]{--deep:#c6bdf0;--on:#221c3a}
+:root[data-palette=dark] #jstage #jcal[data-accent=sunset]{--deep:#f0b39c;--on:#3a1a10}
+:root[data-palette=dark] #jstage #jcal[data-accent=ink]{--deep:#d3d9dc;--on:#1a1e21}
+#jcal .accents>div{flex-wrap:wrap}
+#jcal .accents button{display:flex;align-items:center;gap:5px}
+#jcal .accents i{width:12px;height:12px;border-radius:50%}
+/* event form, flat like a sheet: sections split by thin rules instead of tinted cards */
+#jcal #jform .jed-group{background:transparent;border-top:1px solid var(--rule);border-radius:0;padding:4px 0}
+#jcal #jform .jed-rule{margin-top:-4px}
+#jcal #jcatchips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+#jcal #jform .jed-cat{position:relative;display:inline-flex;align-items:center;gap:7px;min-height:40px;margin:0;padding:0 14px;border:1.5px solid var(--rule);border-radius:999px;background:var(--paper);font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+#jcal #jform .jed-cat::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--ec)}
+#jcal #jform .jed-cat input{position:absolute;opacity:0;pointer-events:none}
+#jcal #jform .jed-cat:has(input:checked){border-color:var(--ec);background:color-mix(in srgb,var(--ec) 15%,var(--paper))}
+#jcal #jform .jed-cat:has(input:focus-visible){outline:2px solid var(--deep);outline-offset:2px}
+#jcal #jform footer{position:sticky;bottom:-16px;z-index:1;margin:4px -16px -16px;padding:12px 16px 16px;background:var(--paper);border-top:1px solid var(--rule)}
+#jcal #jform footer .jprimary{flex:1 1 100%;min-height:52px;border-radius:12px;font-size:17px}
+#jcal #jform footer #jdel,#jcal #jform footer #jcopy{flex:1;min-height:42px;border-radius:10px;font-size:15px;color:var(--sub);background:var(--wash)}
+/* month grid: soft tinted chips with a colour dot, blue Saturday */
+#jcal .month-matrix .month-event{background:color-mix(in srgb,var(--ec) 17%,var(--paper))}
+#jcal .month-matrix .month-event::before{content:"";display:inline-block;width:5px;height:5px;margin:0 3px 1px 1px;border-radius:50%;background:var(--ec);vertical-align:middle}
+#jcal .month-matrix .month-event.span-from::before{display:none}
+#jcal .month-matrix .jcell:nth-child(7n):not(.sel):not(.today) .jnum,#jcal .jweeknames span:last-child{color:light-dark(#3a68ad,#8fb5ee)}
+/* label filter chips above the grid */
+#jcal .jcatfilter{display:inline-flex;align-items:center;min-height:32px;padding:0 13px;border:1.5px solid var(--ec);border-radius:999px;background:color-mix(in srgb,var(--ec) 10%,var(--paper));color:var(--ink);font-size:13px;font-weight:600}
+#jcal .jcatfilter[aria-pressed=false]{border-color:var(--rule);background:transparent;color:var(--sub);text-decoration:line-through}
+@media(pointer:coarse){#jcal .jcatfilter{min-height:40px}}
+
+/* single top bar: month title · ‹ 오늘 › · 월/주/일 · search · settings */
+#jcal .month-jump { margin-right:auto; min-height:44px; }
+#jcal .month-jump .jey { font-size:13px; font-weight:600; color:var(--sub); letter-spacing:0; }
+#jcal .month-jump .jcaret { font-size:12px; color:var(--sub); }
+/* ‹ 오늘 › pinned at the right end of the chip row */
+#jcal .jlegendbar .jarrows { flex:none; margin-left:auto; display:flex; align-items:center; height:36px; border:1.5px solid var(--deep); border-radius:999px; overflow:hidden; }
+#jcal .jlegendbar .jarrows button { height:100%; min-width:28px; border-radius:0; color:var(--deep); font-size:18px; }
+#jcal .jlegendbar .jarrows button[data-act=today] { min-width:0; padding:0 6px; font-size:14px; font-weight:700; }
+#jcal .jviewpick { height:32px; padding:0 22px 0 11px; border:1px solid var(--rule); border-radius:16px; background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23889' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 8px center/9px; -webkit-appearance:none; appearance:none; font-size:14px; font-weight:600; color:var(--ink); }
+#jcal .jicon { display:grid; place-items:center; width:36px; height:40px; color:var(--ink); border-radius:10px; }
+#jcal .jicon svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+#jcal .jlayout aside { padding-top:calc(var(--safe-top) + 18px); }
+@media(pointer:coarse){ #jcal .jlegendbar .jarrows{height:40px} #jcal .jviewpick{height:36px} #jcal .jicon{width:40px;height:44px} }#jcal .jtoolbar, #jcal .jtoolbar * { white-space:nowrap; }
+#jcal .month-jump { align-items:baseline; gap:4px; min-width:0; }
+#jcal .month-jump { overflow:hidden; }
+#jcal[data-view="2"] .month-jump .jey { display:none; }
+@media(pointer:coarse){ #jcal .jcatfilter{min-height:36px} }
+
+/* no bottom tab bar any more: keep content clear of the home indicator */
+#jcal .jlayout main { padding-bottom:var(--safe-bottom); }
+.has-temperature-banner #jcal .jlayout main { padding-bottom:0; }
+/* day list: larger text */
+#jcal .jagenda .jrow b { font-size:17px; }
+#jcal .jagenda .jrow time { font-size:15px; color:var(--ink); }
+#jcal .jagenda .jrow small { font-size:13px; }
+#jcal .jagenda #jcount { font-size:14px; }
+/* 월 → 주 → 일 toggle, one colour per mode */
+#jcal .jlegendbar { display:flex; align-items:center; gap:8px; }
+#jcal .jviewtoggle { flex:none; min-width:46px; min-height:36px; padding:0 12px; border-radius:999px; background:var(--vc); color:#fff; font-size:15px; font-weight:750; }
+#jcal .jviewtoggle[data-mode="0"] { --vc:var(--deep); }
+#jcal .jviewtoggle[data-mode="1"] { --vc:light-dark(#c0702a,#e8a86a); }
+#jcal .jviewtoggle[data-mode="2"] { --vc:light-dark(#7a5bb5,#b9a2ea); }
+:root[data-palette=dark] #jcal .jviewtoggle { color:#15191c; }
+#jcal .jback { padding:6px 4px; color:var(--deep); font-size:15px; font-weight:650; }
+#jcal aside .jsection { justify-content:flex-start; }#jcal .month-jump .jcaret { display:none; }
+#jcal .jtoolbar { padding-right:4px; }
+#jcal .jtoolbar .jicon { width:38px; }
+#jcal .jlegendbar { justify-content:flex-start; }
+#jcal .jlegendbar #jlegend { min-width:0; overflow-x:auto; scrollbar-width:none; }
+#jcal[data-view="2"] #jmonth { font-size:26px; }

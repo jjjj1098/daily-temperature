@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.npm-cache/
+*.log
+# built APKs, source zips and the standalone preview page are regenerated
+release/
+.DS_Store

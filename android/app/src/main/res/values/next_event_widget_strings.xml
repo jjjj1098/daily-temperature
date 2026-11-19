@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="next_widget_label">다음 일정</string>
+    <string name="next_widget_description">매일의 온도에서 진행 중이거나 가장 가까운 일정을 보여줘요.</string>
+    <string name="next_widget_heading">매일의 온도 · 다음 일정</string>
+    <string name="next_widget_underway">매일의 온도 · 진행 중</string>
+    <string name="next_widget_empty">예정된 일정이 없어요</string>
+    <string name="next_widget_open">눌러서 달력 열기</string>
+</resources>
