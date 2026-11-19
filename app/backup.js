@@ -37,6 +37,9 @@ function validateEvent(event, seen, labelCount) {
   const validTimes = event.allDay
     ? event.start === '00:00' && event.end === '24:00'
     : isTime(event.start) && (isTime(event.end) || event.end === '24:00') && (event.start < event.end || isDate(event.endDate) && event.endDate>event.date);
+  const optionalText = (value, max) => value === undefined || typeof value === 'string' && value.length <= max;
+  requireValid(optionalText(event.place, 120) && optionalText(event.url, 500) && optionalText(event.memo, 1500),
+    '일정의 장소·URL·메모 내용을 확인해 주세요.');
   requireValid(validTimes, '일정의 시작·종료 시간이 올바르지 않아요.');
   requireValid(!event.endDate || isDate(event.endDate)&&event.endDate>=event.date,'일정의 종료 날짜를 확인해 주세요.');
   seen.add(event.id);
