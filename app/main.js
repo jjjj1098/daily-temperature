@@ -15,7 +15,7 @@ import './skin.css';
  // 테마(스킨): 기본은 무료, 나머지는 판매용. palette는 그 테마가 고정으로 쓰는 밝기(null이면 화면 모드 설정을 따름)
  const skins=[['basic','기본',0,null],['kraft','크라프트 종이',2500,'light'],['night','겨울 밤',2500,'dark'],['blossom','벚꽃',2500,'light']];
  let skinChoice='basic';
- let themeChoice='light',monthMotion='vertical',agendaMode='ondemand',density='basic';
+ let themeChoice='light',monthMotion='horizontal',agendaMode='ondemand',density='basic';
  let agendaOpen=false,agendaExpanded=false,visibleMonth='',monthWindow=[];
  const systemAppearance=window.matchMedia('(prefers-color-scheme: dark)');
  const lightLandscape={
@@ -67,7 +67,7 @@ import './skin.css';
  }
  let date=today,view=0,filter='전체',colors=[...base],events=[];
  const valid=k=>typeof k==='string'&&/^\d{4}-\d\d-\d\d$/.test(k)&&Number.isFinite(+asDate(k));
- function restore(s){if(!s||!valid(s.date))return;themeChoice=['light','dark','system'].includes(s.themeChoice)?s.themeChoice:'light';accentChoice=accents.some(([id])=>id===s.accentChoice)?s.accentChoice:'sea';skinChoice=skins.some(([id])=>id===s.skinChoice)?s.skinChoice:'basic';monthMotion=s.monthMotion==='horizontal'?'horizontal':'vertical';agendaMode=s.agendaMode==='always'?'always':'ondemand';density=['compact','basic','many'].includes(s.density)?s.density:'basic';date=s.date;screen=s.moods&&s.screen==='lock'?'lock':'calendar';showMood=s.showMood===true;hiddenCats=new Set(Array.isArray(s.hiddenCats)?s.hiddenCats.filter(i=>Number.isInteger(i)&&i>=0&&i<99):[]);moods=Object.fromEntries(Object.entries(s.moods||{}).filter(([k,m])=>valid(k)&&m&&typeof m.name==='string'&&typeof m.emoji==='string'));view=views[s.view]?s.view:0;modules=Array.isArray(s.modules)?[...new Set(s.modules.filter(i=>Number.isInteger(i)&&i>=0&&i<types.length))]:[0,2];labels=Array.isArray(s.labels)&&s.labels.length&&s.labels.every(v=>typeof v==='string'&&v.trim())?[...s.labels]:[...defaultLabels];
+ function restore(s){if(!s||!valid(s.date))return;themeChoice=['light','dark','system'].includes(s.themeChoice)?s.themeChoice:'light';accentChoice=accents.some(([id])=>id===s.accentChoice)?s.accentChoice:'sea';skinChoice=skins.some(([id])=>id===s.skinChoice)?s.skinChoice:'basic';monthMotion='horizontal';agendaMode=s.agendaMode==='always'?'always':'ondemand';density=['compact','basic','many'].includes(s.density)?s.density:'basic';date=s.date;screen=s.moods&&s.screen==='lock'?'lock':'calendar';showMood=s.showMood===true;hiddenCats=new Set(Array.isArray(s.hiddenCats)?s.hiddenCats.filter(i=>Number.isInteger(i)&&i>=0&&i<99):[]);moods=Object.fromEntries(Object.entries(s.moods||{}).filter(([k,m])=>valid(k)&&m&&typeof m.name==='string'&&typeof m.emoji==='string'));view=views[s.view]?s.view:0;modules=Array.isArray(s.modules)?[...new Set(s.modules.filter(i=>Number.isInteger(i)&&i>=0&&i<types.length))]:[0,2];labels=Array.isArray(s.labels)&&s.labels.length&&s.labels.every(v=>typeof v==='string'&&v.trim())?[...s.labels]:[...defaultLabels];
  colors=labels.map((_,i)=>/^#[0-9a-f]{6}$/i.test(s.colors?.[i])&&!oldBase.includes(s.colors[i].toLowerCase())?s.colors[i]:base[i%base.length]);
  filter=Number.isInteger(s.filter)&&labels[s.filter]?s.filter:labels.includes(s.filter)?labels.indexOf(s.filter):'전체';if(Array.isArray(s.events))events=s.events.filter(x=>valid(x.date)&&typeof x.title==='string'&&labels[x.cat]&&/^\d\d:\d\d$/.test(x.start)&&/^\d\d:\d\d$/.test(x.end));}
 
@@ -312,14 +312,35 @@ import './skin.css';
   }
   persist();
  }
- let gesture=null;
- el('jgrid').addEventListener('touchstart',ev=>{const t=ev.touches[0];gesture={x:t.clientX,y:t.clientY}},{passive:true});
+ // 좌우로 밀어서 넘기기: 월간은 한 달, 주간은 한 주, 일간은 하루
+ function go(step){
+  slotSel=null;
+  date=view===0?changeMonth(date,step):shift(date,step*(view===1?7:1));
+  render({jump:true});persist();
+  const grid=el('jgrid');grid.classList.remove('slide-next','slide-prev');void grid.offsetWidth;grid.classList.add(step>0?'slide-next':'slide-prev');
+ }
+ let gesture=null,swiped=0;
+ // 밀어서 넘긴 직후 손을 뗀 자리의 클릭(날짜 선택)은 무시
+ root.addEventListener('click',ev=>{if(Date.now()-swiped<400){ev.stopPropagation();ev.preventDefault()}},true);
+ el('jgrid').addEventListener('touchstart',ev=>{const t=ev.touches[0];gesture={x:t.clientX,y:t.clientY,at:Date.now()}},{passive:true});
  el('jgrid').addEventListener('touchend',ev=>{
-  if(!gesture||view!==0||monthMotion!=='horizontal')return;
-  const t=ev.changedTouches[0],x=t.clientX-gesture.x,y=t.clientY-gesture.y;
-  if(Math.abs(x)>60&&Math.abs(x)>Math.abs(y)*1.5){date=changeMonth(date,x<0?1:-1);render({jump:true});persist()}
-  gesture=null;
+  const g=gesture;gesture=null;
+  if(!g||slotSel&&view!==0&&Date.now()-g.at>450)return; // 주간에서 길게 눌러 시간 고르는 중이면 넘기지 않음
+  const t=ev.changedTouches[0],x=t.clientX-g.x,y=t.clientY-g.y;
+  if(Math.abs(x)>50&&Math.abs(x)>Math.abs(y)*1.4){swiped=Date.now();go(x<0?1:-1)}
  },{passive:true});
+ // PC: 마우스로 끌기(월간), 키보드 ← →
+ let mouse=null;
+ el('jgrid').addEventListener('pointerdown',ev=>{if(ev.pointerType==='mouse'&&view===0)mouse={x:ev.clientX,y:ev.clientY}});
+ el('jgrid').addEventListener('pointerup',ev=>{
+  const m=mouse;mouse=null;if(!m||ev.pointerType!=='mouse')return;
+  const x=ev.clientX-m.x,y=ev.clientY-m.y;
+  if(Math.abs(x)>60&&Math.abs(x)>Math.abs(y)*1.4){swiped=Date.now();go(x<0?1:-1)}
+ });
+ document.addEventListener('keydown',ev=>{
+  if(screen!=='calendar'||!sheet.hidden||ev.target.closest?.('input,textarea,select'))return;
+  if(ev.key==='ArrowRight')go(1);else if(ev.key==='ArrowLeft')go(-1);
+ });
  el('jexpand').onclick=()=>{agendaExpanded=!agendaExpanded;renderAgenda()};
  let dragY;
  el('jagendadrag').addEventListener('touchstart',e=>{dragY=e.touches[0].clientY},{passive:true});
@@ -336,10 +357,10 @@ import './skin.css';
   el('monthform').onsubmit=e=>{e.preventDefault();date=el('monthvalue').value+'-01';close();render({jump:true});persist()};
  }
  function settings(){
-  panel('설정','<section class="appearance" role="group" aria-label="화면 모드"><span>화면 모드</span><div><button type="button" data-theme-choice="light">밝게</button><button type="button" data-theme-choice="dark">어둡게</button><button type="button" data-theme-choice="system">기기 설정</button></div></section><button type="button" class="settings-row" data-screen="lock"><span>잠금화면 꾸미기</span><small>배경화면 만들기 ›</small></button><section class="settings-labels" aria-label="달력에 보일 라벨"><span>달력에 보일 라벨</span><div>'+labels.map((label,i)=>'<button type="button" class="jcatfilter" data-cat-toggle="'+i+'" aria-pressed="'+!hiddenCats.has(i)+'" style="--ec:'+colors[i]+'">'+esc(label)+'</button>').join('')+'</div></section><section class="appearance skins" role="group" aria-label="테마"><span>테마</span><div>'+skins.map(([id,name,price])=>'<button type="button" data-skin-choice="'+id+'"><span class="skin-swatch" data-skin="'+id+'" aria-hidden="true"><b>20</b><i></i><i></i></span><strong>'+name+'</strong><small>'+(price?price.toLocaleString('ko-KR')+'원':'무료')+'</small></button>').join('')+'</div><p class="skin-note" role="status"></p></section><section class="appearance accents" role="group" aria-label="강조 색"><span>강조 색</span><div>'+accents.map(([id,name,color])=>'<button type="button" data-accent-choice="'+id+'"><i aria-hidden="true" style="background:'+color+'"></i>'+name+'</button>').join('')+'</div></section><label>달력 이동<select id="monthmotion"><option value="vertical">위아래 연속 스크롤</option><option value="horizontal">좌우로 한 달씩</option></select></label><label>아래 일정 목록<select id="agendamode"><option value="ondemand">날짜를 누르면 표시</option><option value="always">항상 표시</option></select></label><label>날짜 칸의 일정 표시<select id="density"><option value="compact">간단히 · 2개</option><option value="basic">기본 · 4개</option><option value="many">많이 · 8개</option></select></label><button type="button" data-act="labels" class="settings-action">라벨 관리</button><div id="settings-backup"></div>');
-  for(const [id,value] of [['monthmotion',monthMotion],['agendamode',agendaMode],['density',density]])el(id).value=value;
-  for(const id of ['monthmotion','agendamode','density'])el(id).onchange=()=>{
-   monthMotion=el('monthmotion').value;agendaMode=el('agendamode').value;density=el('density').value;
+  panel('설정','<section class="appearance" role="group" aria-label="화면 모드"><span>화면 모드</span><div><button type="button" data-theme-choice="light">밝게</button><button type="button" data-theme-choice="dark">어둡게</button><button type="button" data-theme-choice="system">기기 설정</button></div></section><button type="button" class="settings-row" data-screen="lock"><span>잠금화면 꾸미기</span><small>배경화면 만들기 ›</small></button><section class="settings-labels" aria-label="달력에 보일 라벨"><span>달력에 보일 라벨</span><div>'+labels.map((label,i)=>'<button type="button" class="jcatfilter" data-cat-toggle="'+i+'" aria-pressed="'+!hiddenCats.has(i)+'" style="--ec:'+colors[i]+'">'+esc(label)+'</button>').join('')+'</div></section><section class="appearance skins" role="group" aria-label="테마"><span>테마</span><div>'+skins.map(([id,name,price])=>'<button type="button" data-skin-choice="'+id+'"><span class="skin-swatch" data-skin="'+id+'" aria-hidden="true"><b>20</b><i></i><i></i></span><strong>'+name+'</strong><small>'+(price?price.toLocaleString('ko-KR')+'원':'무료')+'</small></button>').join('')+'</div><p class="skin-note" role="status"></p></section><section class="appearance accents" role="group" aria-label="강조 색"><span>강조 색</span><div>'+accents.map(([id,name,color])=>'<button type="button" data-accent-choice="'+id+'"><i aria-hidden="true" style="background:'+color+'"></i>'+name+'</button>').join('')+'</div></section><label>아래 일정 목록<select id="agendamode"><option value="ondemand">날짜를 누르면 표시</option><option value="always">항상 표시</option></select></label><label>날짜 칸의 일정 표시<select id="density"><option value="compact">간단히 · 2개</option><option value="basic">기본 · 4개</option><option value="many">많이 · 8개</option></select></label><button type="button" data-act="labels" class="settings-action">라벨 관리</button><div id="settings-backup"></div>');
+  for(const [id,value] of [['agendamode',agendaMode],['density',density]])el(id).value=value;
+  for(const id of ['agendamode','density'])el(id).onchange=()=>{
+   agendaMode=el('agendamode').value;density=el('density').value;
    render({jump:true});persist();
   };
   el('settings-backup').append(el('backup'));el('backup').hidden=false;

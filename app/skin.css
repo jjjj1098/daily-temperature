@@ -265,3 +265,14 @@
 /* 헤더 위아래 여백을 넉넉하게: 제목 줄이 화면 위와 요일 줄에 붙어 보이지 않도록 */
 #jstage #jcal .jtoolbar { padding-top: calc(var(--safe-top) + 24px); padding-bottom: 18px; }
 #jstage #jcal .month-headers span { padding-top: 6px; padding-bottom: 10px; }
+
+/* 좌우로 넘길 때 살짝 밀려 들어오는 느낌 */
+@keyframes jslide-next { from { transform: translateX(28px); opacity: .25; } to { transform: none; opacity: 1; } }
+@keyframes jslide-prev { from { transform: translateX(-28px); opacity: .25; } to { transform: none; opacity: 1; } }
+#jstage #jcal #jgrid.slide-next > * { animation: jslide-next .22s ease-out; }
+#jstage #jcal #jgrid.slide-prev > * { animation: jslide-prev .22s ease-out; }
+@media (prefers-reduced-motion: reduce) { #jstage #jcal #jgrid > * { animation: none !important; } }
+#jstage #jcal #jgrid { overflow-x: hidden; touch-action: pan-y; }
+/* 화살표가 빠졌으므로 제목 뒤 빈 공간을 밀어 버튼들을 오른쪽으로 모은다 */
+#jstage #jcal .month-jump { margin-right: auto; }
+#jstage #jcal .jtoolbar { justify-content: flex-start; }
