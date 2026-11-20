@@ -428,3 +428,17 @@ body { background: #f0f2ef; background: light-dark(#f0f2ef, #121819); }
 #jcal .jlegendbar { justify-content:flex-start; }
 #jcal .jlegendbar #jlegend { min-width:0; overflow-x:auto; scrollbar-width:none; }
 #jcal[data-view="2"] #jmonth { font-size:26px; }
+
+/* 상단 정리: 연도는 작게 앞에, 월은 덜 무겁게. 버튼·칩은 내용보다 튀지 않게 */
+#jcal .month-jump { gap:6px; }
+#jcal #jyear { font-size:15px; font-weight:500; letter-spacing:0; color:var(--sub); }
+#jcal #jmonth { font-size:26px; font-weight:700; letter-spacing:-.02em; }
+#jcal .jcaret { color:var(--sub); font-size:14px; }
+#jcal .calendar-month > h3 { padding:14px 14px 6px; font-size:15px; font-weight:650; color:var(--ink); }
+#jcal .jviewtoggle { min-height:32px; padding:0 13px; font-size:14px; font-weight:650; background:color-mix(in srgb,var(--vc) 13%,var(--paper)); color:var(--vc); }
+#jcal .jcatfilter { border:0; padding:0 7px; gap:5px; background:transparent; font-weight:550; }
+#jcal .jcatfilter::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--ec); }
+#jcal .jcatfilter[aria-pressed=false] { background:transparent; text-decoration:none; opacity:.55; }
+#jcal .jlegendbar .jarrows { border:0; background:var(--wash); }
+#jcal .jlegendbar .jarrows button { color:var(--ink); }
+#jcal .jlegendbar .jarrows button[data-act=today] { font-weight:600; }

@@ -186,14 +186,14 @@ import { initAds } from './ads.js';
  }
  function monthSection(k){
   const d=asDate(k);
-  return '<section class="calendar-month" data-month="'+k.slice(0,7)+'"><h3>'+d.getFullYear()+'년 '+(d.getMonth()+1)+'월</h3>'+renderMonth(k)+'</section>';
+  return '<section class="calendar-month" data-month="'+k.slice(0,7)+'"><h3>'+(d.getMonth()?'':d.getFullYear()+'년 ')+(d.getMonth()+1)+'월</h3>'+renderMonth(k)+'</section>';
  }
  function paintGrid({jump=false}={}){
   const grid=el('jgrid'),offset=grid.scrollTop;
   if(view===0&&monthMotion==='vertical'){
    if(!monthWindow.length||jump)prepareMonths(date);
    grid.innerHTML=monthWindow.map(monthSection).join('');
-   grid.scrollTop=jump?Math.max(0,grid.querySelector('[data-month="'+date.slice(0,7)+'"]').offsetTop):offset;
+   grid.scrollTop=jump?Math.max(0,(sec=>sec.offsetTop+sec.firstElementChild.offsetHeight)(grid.querySelector('[data-month="'+date.slice(0,7)+'"]'))):offset;
   }else{grid.innerHTML=view===0?renderMonth():timeline();if(jump)grid.scrollTop=0}
   paintSlot();
  }
