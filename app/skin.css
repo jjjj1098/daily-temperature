@@ -261,3 +261,7 @@
 #jstage #jcal #jmoodline[hidden] { display: none; }
 #jstage #jcal #jmoodline span { font-size: 18px; line-height: 1; }
 #jstage #jcal #jmoodline b { font-weight: 500; font-size: 14px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 헤더 위아래 여백을 넉넉하게: 제목 줄이 화면 위와 요일 줄에 붙어 보이지 않도록 */
+#jstage #jcal .jtoolbar { padding-top: calc(var(--safe-top) + 24px); padding-bottom: 18px; }
+#jstage #jcal .month-headers span { padding-top: 6px; padding-bottom: 10px; }
