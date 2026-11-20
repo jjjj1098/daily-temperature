@@ -7,8 +7,8 @@
 
 /* ───────── 공통 토큰 (기본 테마) ───────── */
 #jstage #jcal {
-  --sun: light-dark(#c4473f, #f08a83);
-  --sat: light-dark(#3b6bb3, #8db3ee);
+  --sun: light-dark(#f04452, #ff7b84);
+  --sat: light-dark(#3182f6, #6ea8ff);
   --numfont: inherit;
   --numsize: 14px;
   --numweight: 550;
@@ -21,23 +21,60 @@
   background: var(--texture), var(--paper);
 }
 :root:not([data-palette=dark]) #jstage #jcal[data-skin=basic] {
-  --paper: #fbfaf7; --ink: #1c2326; --sub: #6d7579; --rule: #ebe9e4; --wash: #f2f1ed;
+  --paper: #ffffff; --ink: #191f28; --sub: #8b95a1; --rule: #eef0f3; --wash: #f4f6f8;
 }
 :root[data-palette=dark] #jstage #jcal[data-skin=basic] {
-  --paper: #16191c; --ink: #eceeed; --sub: #9aa3a6; --rule: #262b2f; --wash: #1f2427;
+  --paper: #17171c; --ink: #f2f4f6; --sub: #9ea6b0; --rule: #2a2b31; --wash: #212228;
 }
 
-/* ───────── 상단 ───────── */
-#jstage #jcal #jmonth { font-family: var(--titlefont); }
-#jstage #jcal .jlegendbar .jarrows { background: transparent; gap: 2px; border: 0; border-radius: 0; overflow: visible; height: auto; }
-#jstage #jcal .jviewtoggle { color: var(--vc); background: color-mix(in srgb, var(--vc) 14%, transparent); }
-#jstage #jcal .jlegendbar .jarrows button { color: var(--sub); border: 0; }
-#jstage #jcal .jlegendbar .jarrows button[data-act=today] {
-  color: var(--ink); font-size: 13px; font-weight: 600; padding: 0 14px; height: 32px; min-height: 32px;
-  border: 1px solid var(--rule); border-radius: 999px; background: var(--paper);
+/* ───────── 상단 ─────────
+   [2026년 11월] [‹ ›]            [월] [오늘] [검색] [설정]
+   화살표는 제목 바로 옆에 붙여 "달을 넘긴다"는 뜻이 분명하게, 오늘은 따로 */
+#jstage #jcal .jtoolbar { gap: 0; padding-left: 16px; padding-right: 10px; }
+#jstage #jcal .month-jump { gap: 5px; margin-right: 0; flex: none; }
+#jstage #jcal #jyear, #jstage #jcal #jmonth {
+  font-family: var(--titlefont); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink);
 }
-#jstage #jcal .jlegendbar .jarrows { align-items: center; }
-#jstage #jcal .jcatfilter { color: var(--ink); font-weight: 500; }
+#jstage #jcal .jcaret { display: none; }
+#jstage #jcal .jnav { display: flex; margin-left: 2px; margin-right: auto; }
+#jstage #jcal .jnav .jicon { width: 30px; color: var(--sub); }
+#jstage #jcal .jnav .jicon svg { width: 18px; height: 18px; stroke-width: 2; }
+#jstage #jcal .jtodaybtn {
+  flex: none; height: 30px; padding: 0 11px; margin: 0 2px 0 6px; border-radius: 999px;
+  border: 1px solid var(--rule); background: var(--paper); color: var(--ink); font-size: 13px; font-weight: 600;
+}
+#jstage #jcal .jtoolbar .jicon { width: 36px; }
+#jstage #jcal .jviewtoggle { min-width: 40px; min-height: 30px; padding: 0 10px; font-size: 13px; }
+#jstage #jcal .jviewtoggle { color: var(--vc); background: color-mix(in srgb, var(--vc) 13%, transparent); }
+#jstage #jcal .jlegendbar { display: none; }
+#jstage #jcal .jtoolbar { padding-bottom: 10px; }
+
+/* 설정: 잠금화면 바로가기, 라벨 보이기·숨기기 */
+#jstage #jcal .settings-row {
+  display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 14px 0;
+  border-bottom: 1px solid var(--rule); font-size: 15px; font-weight: 600; color: var(--ink);
+}
+#jstage #jcal .settings-row small { color: var(--sub); font-size: 13px; font-weight: 500; }
+#jstage #jcal .settings-labels { padding: 14px 0 4px; }
+#jstage #jcal .settings-labels > span { display: block; font-size: 13px; color: var(--sub); margin-bottom: 8px; }
+#jstage #jcal .settings-labels > div { display: flex; flex-wrap: wrap; gap: 6px; }
+#jstage #jcal .settings-labels .jcatfilter { padding: 0 12px; min-height: 34px; border-radius: 999px; background: var(--wash); }
+#jstage #jcal .jcatfilter { border: 0; gap: 6px; color: var(--ink); font-weight: 500; }
+#jstage #jcal .jcatfilter::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ec); }
+#jstage #jcal .jcatfilter[aria-pressed=false] { opacity: .45; text-decoration: none; }
+
+/* 강조색: 선명하게 (기본 테마에서만) */
+:root #jstage #jcal[data-skin=basic][data-accent=sea] { --deep: #2f6bf0; }
+:root #jstage #jcal[data-skin=basic][data-accent=forest] { --deep: #10a172; }
+:root #jstage #jcal[data-skin=basic][data-accent=lavender] { --deep: #7c5cf0; }
+:root #jstage #jcal[data-skin=basic][data-accent=sunset] { --deep: #ef6a3a; }
+:root #jstage #jcal[data-skin=basic][data-accent=ink] { --deep: #2a2f35; }
+:root[data-palette=dark] #jstage #jcal[data-skin=basic][data-accent=sea] { --deep: #6f9cff; --on: #0b1530; }
+:root[data-palette=dark] #jstage #jcal[data-skin=basic][data-accent=forest] { --deep: #3fd09c; --on: #062418; }
+:root[data-palette=dark] #jstage #jcal[data-skin=basic][data-accent=lavender] { --deep: #a993ff; --on: #1a1236; }
+:root[data-palette=dark] #jstage #jcal[data-skin=basic][data-accent=sunset] { --deep: #ff936a; --on: #2e1206; }
+:root[data-palette=dark] #jstage #jcal[data-skin=basic][data-accent=ink] { --deep: #e4e7eb; --on: #17171c; }
+:root #jstage #jcal[data-skin=basic] { --cellsel: color-mix(in srgb, var(--deep) 8%, transparent); }
 
 /* ───────── 월간 달력 ───────── */
 #jstage #jcal .month-headers span { font-size: 11.5px; font-weight: 500; color: var(--sub); letter-spacing: 0; }
@@ -69,8 +106,8 @@
 
 /* 일정 칩: 점 없이 옅은 바탕 + 진한 같은 색 글자 → 좁은 칸에 글자를 더 넣는다 */
 #jstage #jcal .month-matrix .month-event {
-  background: color-mix(in srgb, var(--ec) 17%, var(--paper));
-  color: color-mix(in srgb, var(--ec) 58%, var(--ink));
+  background: color-mix(in srgb, var(--ec) 16%, var(--paper));
+  color: color-mix(in oklab, var(--ec) 78%, var(--ink));
   font-size: 11px; font-weight: 600; line-height: 17px; letter-spacing: -0.03em;
   padding: 0 4px; border-radius: var(--chipr); text-overflow: clip;
 }
@@ -84,13 +121,13 @@
 /* ───────── 주간·일간 ───────── */
 #jstage #jcal .block {
   word-break: keep-all; overflow-wrap: anywhere; border-radius: 5px; padding: 2px 4px;
-  background: color-mix(in srgb, var(--ec) 18%, var(--paper));
-  color: color-mix(in srgb, var(--ec) 55%, var(--ink)); font-weight: 600; line-height: 1.3;
+  background: color-mix(in srgb, var(--ec) 16%, var(--paper));
+  color: color-mix(in oklab, var(--ec) 78%, var(--ink)); font-weight: 600; line-height: 1.3;
 }
 #jstage #jcal .jallday button {
   word-break: keep-all; border-radius: var(--chipr); font-weight: 600;
-  background: color-mix(in srgb, var(--ec) 18%, var(--paper));
-  color: color-mix(in srgb, var(--ec) 55%, var(--ink));
+  background: color-mix(in srgb, var(--ec) 16%, var(--paper));
+  color: color-mix(in oklab, var(--ec) 78%, var(--ink));
 }
 #jstage #jcal .timehead { color: var(--sub); }
 
@@ -126,7 +163,7 @@
 #jstage #jcal .skin-swatch i { position: absolute; left: 10px; right: 10px; height: 9px; border-radius: 3px; }
 #jstage #jcal .skin-swatch i:nth-of-type(1) { top: 46px; background: var(--sw-c1); }
 #jstage #jcal .skin-swatch i:nth-of-type(2) { top: 59px; right: 24px; background: var(--sw-c2); }
-#jstage #jcal .skin-swatch[data-skin=basic] { --sw-bg:#fbfaf7; --sw-ink:#1c2326; --sw-deep:#2f5d8a; --sw-on:#fff; --sw-c1:#f3dcd9; --sw-c2:#dcebe3; }
+#jstage #jcal .skin-swatch[data-skin=basic] { --sw-bg:#ffffff; --sw-ink:#191f28; --sw-deep:#2f6bf0; --sw-on:#fff; --sw-c1:#fde0df; --sw-c2:#d6f3e8; }
 #jstage #jcal .skin-swatch[data-skin=kraft] { --sw-bg:#e6d7bc; --sw-ink:#3b2f22; --sw-deep:transparent; --sw-on:#8a3f22; --sw-c1:#e7b9a0cc; --sw-c2:#b9cf9ecc; --sw-font:"Gaegu"; --sw-today:47% 53% 50% 46% / 52% 45% 55% 48%; }
 #jstage #jcal .skin-swatch[data-skin=kraft] b { box-shadow: inset 0 0 0 2px #8a3f22; font-size: 16px; }
 #jstage #jcal .skin-swatch[data-skin=night] { --sw-bg:linear-gradient(170deg,#1b2540,#0d1220); --sw-ink:#e8ecf5; --sw-deep:#f2d27e; --sw-on:#1b1a10; --sw-c1:#3a4a78; --sw-c2:#2f5a55; }
@@ -148,7 +185,7 @@
   --cellsel: #fff6e255;
   --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .12 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-#jstage #jcal[data-skin=kraft] #jmonth { font-size: 34px; letter-spacing: 0; }
+#jstage #jcal[data-skin=kraft] :is(#jmonth, #jyear) { font-size: 28px; letter-spacing: 0; }
 #jstage #jcal[data-skin=kraft] .calendar-month > h3 { font-size: 22px; }
 #jstage #jcal[data-skin=kraft] .month-matrix .jcell { border-bottom: 1px dashed var(--rule); }
 #jstage #jcal[data-skin=kraft] .month-matrix .jcell.today .jnum {
@@ -163,7 +200,7 @@
   color: color-mix(in srgb, var(--ec) 35%, #2b2016);
   box-shadow: 0 1px 0 #0000000d;
 }
-#jstage #jcal[data-skin=kraft] .jlegendbar .jarrows button[data-act=today] { background: #f3e9d4; }
+#jstage #jcal[data-skin=kraft] .jtodaybtn { background: #f3e9d4; }
 #jstage #jcal[data-skin=kraft] .jviewtoggle { --vc: #8a3f22; }
 
 /* ═════════ 겨울 밤 ═════════

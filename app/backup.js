@@ -1,7 +1,7 @@
 const FORMAT = 'daily-temperature/calendar';
 const VERSION = 1;
 const DEFAULT_LABELS = ['회의', '운동', '개인', '업무'];
-const DEFAULT_COLORS = ['#d7766f', '#529979', '#a183b7', '#6e91bb'];
+const DEFAULT_COLORS = ['#f0605d', '#1fae7a', '#9a6cf0', '#3b82f6'];
 const ALARMS = ['없음', '시작 시각', '10분 전', '30분 전', '1시간 전', '하루 전'];
 
 function requireValid(condition, message) {
