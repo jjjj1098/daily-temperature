@@ -7,6 +7,7 @@ const { output } = await build({
   build: {
     write: false,
     modulePreload: false,
+    assetsInlineLimit: 100_000_000,
     rollupOptions: { output: { inlineDynamicImports: true } }
   },
   logLevel: 'error'

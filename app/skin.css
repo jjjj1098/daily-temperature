@@ -1,0 +1,207 @@
+/*
+ * 매일의 온도 — 디자인 다듬기 + 테마(스킨)
+ * 기본 원칙: 날짜와 일정이 주인공, 버튼·선·장식은 한 단계 물러선다.
+ * 테마는 #jcal[data-skin] 하나로 색·질감·숫자 글꼴·오늘 표시 모양을 함께 바꾼다.
+ * 기존 style.css 위에 덮어쓰기 때문에 선택자 앞에 #jstage를 붙여 우선순위를 확보한다.
+ */
+
+/* ───────── 공통 토큰 (기본 테마) ───────── */
+#jstage #jcal {
+  --sun: light-dark(#c4473f, #f08a83);
+  --sat: light-dark(#3b6bb3, #8db3ee);
+  --numfont: inherit;
+  --numsize: 14px;
+  --numweight: 550;
+  --titlefont: inherit;
+  --chipr: 4px;
+  --texture: none;
+  --cellsel: color-mix(in srgb, var(--deep) 7%, transparent);
+  font-family: "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  background: var(--texture), var(--paper);
+}
+:root:not([data-palette=dark]) #jstage #jcal[data-skin=basic] {
+  --paper: #fbfaf7; --ink: #1c2326; --sub: #6d7579; --rule: #ebe9e4; --wash: #f2f1ed;
+}
+:root[data-palette=dark] #jstage #jcal[data-skin=basic] {
+  --paper: #16191c; --ink: #eceeed; --sub: #9aa3a6; --rule: #262b2f; --wash: #1f2427;
+}
+
+/* ───────── 상단 ───────── */
+#jstage #jcal #jmonth { font-family: var(--titlefont); }
+#jstage #jcal .jlegendbar .jarrows { background: transparent; gap: 2px; border: 0; border-radius: 0; overflow: visible; height: auto; }
+#jstage #jcal .jviewtoggle { color: var(--vc); background: color-mix(in srgb, var(--vc) 14%, transparent); }
+#jstage #jcal .jlegendbar .jarrows button { color: var(--sub); border: 0; }
+#jstage #jcal .jlegendbar .jarrows button[data-act=today] {
+  color: var(--ink); font-size: 13px; font-weight: 600; padding: 0 14px; height: 32px; min-height: 32px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--paper);
+}
+#jstage #jcal .jlegendbar .jarrows { align-items: center; }
+#jstage #jcal .jcatfilter { color: var(--ink); font-weight: 500; }
+
+/* ───────── 월간 달력 ───────── */
+#jstage #jcal .month-headers span { font-size: 11.5px; font-weight: 500; color: var(--sub); letter-spacing: 0; }
+#jstage #jcal .month-headers span:first-child { color: var(--sun); }
+#jstage #jcal .month-headers span:last-child { color: var(--sat); }
+#jstage #jcal .jweeknames.month-headers { border-bottom: 1px solid var(--rule); }
+#jstage #jcal .calendar-month > h3 { font-family: var(--titlefont); font-size: 17px; font-weight: 700; padding: 22px 14px 8px; }
+
+#jstage #jcal .month-matrix .jcell {
+  border-bottom: 1px solid var(--rule); border-right: 0; background: transparent;
+  padding: 5px 2px 6px; gap: 2px; box-shadow: none; border-radius: 0;
+}
+#jstage #jcal .month-matrix .jnum {
+  font-family: var(--numfont); font-size: var(--numsize); font-weight: var(--numweight);
+  min-width: 24px; height: 24px; margin-left: 2px; color: var(--ink);
+}
+#jstage #jcal .month-matrix .jcell:nth-child(7n+1) .jnum { color: var(--sun); }
+#jstage #jcal .month-matrix .jcell:nth-child(7n) .jnum { color: var(--sat); }
+
+/* 선택한 날: 테두리 상자 대신 옅은 바탕 */
+#jstage #jcal .month-matrix .jcell.sel { background: var(--cellsel); box-shadow: none; border-radius: 10px; }
+#jstage #jcal .month-matrix .sel:not(.today) .jnum { background: transparent; }
+/* 오늘: 강조색 동그라미 (테마마다 모양이 바뀜) */
+#jstage #jcal .month-matrix .jcell.today .jnum { background: var(--deep); color: var(--on); font-weight: 700; box-shadow: none; }
+
+/* 다른 달 날짜: 연속 스크롤에서는 위아래 달이 이미 보여 주므로 비워 두고, 한 달씩 보기에서는 흐리게 */
+#jstage #jcal .calendar-month .month-matrix .jcell.out { visibility: hidden; }
+#jstage #jcal .month-matrix .jcell.out { background: transparent; opacity: .35; }
+
+/* 일정 칩: 점 없이 옅은 바탕 + 진한 같은 색 글자 → 좁은 칸에 글자를 더 넣는다 */
+#jstage #jcal .month-matrix .month-event {
+  background: color-mix(in srgb, var(--ec) 17%, var(--paper));
+  color: color-mix(in srgb, var(--ec) 58%, var(--ink));
+  font-size: 11px; font-weight: 600; line-height: 17px; letter-spacing: -0.03em;
+  padding: 0 4px; border-radius: var(--chipr); text-overflow: clip;
+}
+#jstage #jcal .month-matrix .month-event::before { display: none; }
+/* 며칠짜리 일정: 칸 사이를 이어 붙여 막대 하나로 보이게, 제목은 시작일과 주의 첫 칸에만 */
+#jstage #jcal .month-matrix .month-event.span-continues { margin-right: -2px; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+#jstage #jcal .month-matrix .month-event.span-from { margin-left: -2px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+#jstage #jcal .month-matrix .jcell:not(:nth-child(7n+1)) .month-event.span-from { color: transparent; }
+#jstage #jcal .month-more { color: var(--sub); font-weight: 500; }
+
+/* ───────── 주간·일간 ───────── */
+#jstage #jcal .block {
+  word-break: keep-all; overflow-wrap: anywhere; border-radius: 5px; padding: 2px 4px;
+  background: color-mix(in srgb, var(--ec) 18%, var(--paper));
+  color: color-mix(in srgb, var(--ec) 55%, var(--ink)); font-weight: 600; line-height: 1.3;
+}
+#jstage #jcal .jallday button {
+  word-break: keep-all; border-radius: var(--chipr); font-weight: 600;
+  background: color-mix(in srgb, var(--ec) 18%, var(--paper));
+  color: color-mix(in srgb, var(--ec) 55%, var(--ink));
+}
+#jstage #jcal .timehead { color: var(--sub); }
+
+/* ───────── 아래 일정 목록 ───────── */
+#jstage #jcal main .jagenda { background: var(--paper); box-shadow: 0 -6px 20px color-mix(in srgb, var(--ink) 8%, transparent); }
+#jstage #jcal .agenda-actions [data-act="day-add"] { border-radius: 14px; font-weight: 650; }
+#jstage #jcal .agenda-actions #jmoodday {
+  border-radius: 14px; padding: 0 14px; border: 1px solid var(--rule);
+  background: var(--paper); color: var(--ink); font-weight: 600;
+}
+
+/* ───────── 설정: 테마 고르기 ───────── */
+#jstage #jcal .appearance.skins { display: block; }
+#jstage #jcal .appearance.skins > div {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;
+  padding: 0; background: transparent; margin-top: 8px;
+}
+#jstage #jcal .appearance.skins button {
+  display: flex; flex-direction: column; align-items: stretch; gap: 3px; padding: 0 0 6px;
+  border-radius: 12px; background: transparent; box-shadow: none; min-height: 0; text-align: center;
+}
+#jstage #jcal .appearance.skins button strong { font-size: 12px; font-weight: 600; color: var(--ink); }
+#jstage #jcal .appearance.skins button small { font-size: 11px; color: var(--sub); }
+#jstage #jcal .appearance.skins button[aria-pressed=true] .skin-swatch { outline: 2px solid var(--deep); outline-offset: 2px; }
+#jstage #jcal .skin-swatch {
+  position: relative; display: block; aspect-ratio: 3 / 4; border-radius: 10px; overflow: hidden;
+  background: var(--sw-bg); border: 1px solid color-mix(in srgb, var(--sw-ink) 12%, transparent);
+}
+#jstage #jcal .skin-swatch b {
+  position: absolute; top: 10px; left: 10px; width: 26px; height: 26px; display: grid; place-items: center;
+  font: 700 13px/1 var(--sw-font, inherit); color: var(--sw-on); background: var(--sw-deep); border-radius: var(--sw-today, 50%);
+}
+#jstage #jcal .skin-swatch i { position: absolute; left: 10px; right: 10px; height: 9px; border-radius: 3px; }
+#jstage #jcal .skin-swatch i:nth-of-type(1) { top: 46px; background: var(--sw-c1); }
+#jstage #jcal .skin-swatch i:nth-of-type(2) { top: 59px; right: 24px; background: var(--sw-c2); }
+#jstage #jcal .skin-swatch[data-skin=basic] { --sw-bg:#fbfaf7; --sw-ink:#1c2326; --sw-deep:#2f5d8a; --sw-on:#fff; --sw-c1:#f3dcd9; --sw-c2:#dcebe3; }
+#jstage #jcal .skin-swatch[data-skin=kraft] { --sw-bg:#e6d7bc; --sw-ink:#3b2f22; --sw-deep:transparent; --sw-on:#8a3f22; --sw-c1:#e7b9a0cc; --sw-c2:#b9cf9ecc; --sw-font:"Gaegu"; --sw-today:47% 53% 50% 46% / 52% 45% 55% 48%; }
+#jstage #jcal .skin-swatch[data-skin=kraft] b { box-shadow: inset 0 0 0 2px #8a3f22; font-size: 16px; }
+#jstage #jcal .skin-swatch[data-skin=night] { --sw-bg:linear-gradient(170deg,#1b2540,#0d1220); --sw-ink:#e8ecf5; --sw-deep:#f2d27e; --sw-on:#1b1a10; --sw-c1:#3a4a78; --sw-c2:#2f5a55; }
+#jstage #jcal .skin-swatch[data-skin=night] b { box-shadow: 0 0 10px #f2d27e99; }
+#jstage #jcal .skin-swatch[data-skin=blossom] { --sw-bg:#fff4f5; --sw-ink:#4a2b33; --sw-deep:#e07a92; --sw-on:#fff; --sw-c1:#fbd5de; --sw-c2:#e3e6f8; --sw-today:50% 50% 50% 14%; --sw-font:"Gowun Dodum"; }
+#jstage #jcal .skin-note { margin: 10px 0 0; font-size: 12px; color: var(--deep); }
+#jstage #jcal .skin-note:empty { display: none; }
+#jstage #jcal .appearance.locked { opacity: .4; pointer-events: none; }
+
+/* ═════════ 크라프트 종이 ═════════
+   손글씨 숫자, 종이 질감, 손으로 그린 듯한 오늘 동그라미, 마스킹테이프 같은 일정 칩 */
+:root #jstage #jcal[data-skin=kraft],
+:root #jstage #jcal[data-skin=kraft][data-accent] {
+  --paper: #e9dcc2; --ink: #3b2f22; --sub: #7d6a52; --rule: #d3c2a3; --wash: #e1d2b5;
+  --deep: #8a3f22; --on: #fff8ec; --sun: #a8432c; --sat: #3d5f87;
+  --numfont: "Gaegu", "Pretendard Variable", sans-serif; --numsize: 18px; --numweight: 700;
+  --titlefont: "Gaegu", "Pretendard Variable", sans-serif;
+  --chipr: 1px;
+  --cellsel: #fff6e255;
+  --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .12 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#jstage #jcal[data-skin=kraft] #jmonth { font-size: 34px; letter-spacing: 0; }
+#jstage #jcal[data-skin=kraft] .calendar-month > h3 { font-size: 22px; }
+#jstage #jcal[data-skin=kraft] .month-matrix .jcell { border-bottom: 1px dashed var(--rule); }
+#jstage #jcal[data-skin=kraft] .month-matrix .jcell.today .jnum {
+  background: transparent; color: var(--deep);
+  box-shadow: inset 0 0 0 2px var(--deep);
+  border-radius: 47% 53% 50% 46% / 52% 45% 55% 48%; transform: rotate(-6deg);
+}
+#jstage #jcal[data-skin=kraft] .month-matrix .month-event,
+#jstage #jcal[data-skin=kraft] .block,
+#jstage #jcal[data-skin=kraft] .jallday button {
+  background: color-mix(in srgb, var(--ec) 34%, transparent);
+  color: color-mix(in srgb, var(--ec) 35%, #2b2016);
+  box-shadow: 0 1px 0 #0000000d;
+}
+#jstage #jcal[data-skin=kraft] .jlegendbar .jarrows button[data-act=today] { background: #f3e9d4; }
+#jstage #jcal[data-skin=kraft] .jviewtoggle { --vc: #8a3f22; }
+
+/* ═════════ 겨울 밤 ═════════
+   깊은 남색 하늘과 작은 별, 달빛처럼 은은하게 빛나는 오늘 표시 */
+:root #jstage #jcal[data-skin=night],
+:root[data-palette] #jstage #jcal[data-skin=night][data-accent] {
+  --paper: #111829; --ink: #e8ecf5; --sub: #8e99b3; --rule: #222c44; --wash: #1a2337;
+  --deep: #f2d27e; --on: #1b1a10; --sun: #f39a95; --sat: #9dbcf5;
+  --cellsel: #ffffff0d;
+  --texture:
+    radial-gradient(1px 1px at 12% 8%, #ffffffb0 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 4%, #ffffff90 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 56% 13%, #ffffffc0 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 21%, #ffffff70 50%, transparent 51%),
+    radial-gradient(1px 1px at 91% 17%, #ffffff80 50%, transparent 51%),
+    linear-gradient(180deg, #182240 0%, #111829 260px);
+}
+#jstage #jcal[data-skin=night] .month-matrix .jcell.today .jnum { box-shadow: 0 0 0 3px #f2d27e22, 0 0 14px #f2d27e88; }
+#jstage #jcal[data-skin=night] .month-matrix .month-event,
+#jstage #jcal[data-skin=night] .block,
+#jstage #jcal[data-skin=night] .jallday button {
+  background: color-mix(in srgb, var(--ec) 26%, #111829);
+  color: color-mix(in srgb, var(--ec) 45%, #ffffff);
+}
+#jstage #jcal[data-skin=night] .jviewtoggle { --vc: #f2d27e; }
+#jstage #jcal[data-skin=night] main .jagenda { background: #151d31; }
+
+/* ═════════ 벚꽃 ═════════
+   연분홍 종이, 둥근 글꼴, 꽃잎 모양 오늘 표시, 구석에 흩날리는 꽃잎 */
+:root #jstage #jcal[data-skin=blossom],
+:root #jstage #jcal[data-skin=blossom][data-accent] {
+  --paper: #fff6f7; --ink: #4a2b33; --sub: #9b7a83; --rule: #f5e0e4; --wash: #fdecef;
+  --deep: #df7590; --on: #fff; --sun: #d4566f; --sat: #6f7fc7;
+  --numfont: "Gowun Dodum", "Pretendard Variable", sans-serif; --numweight: 400; --numsize: 15px;
+  --titlefont: "Gowun Dodum", "Pretendard Variable", sans-serif;
+  --chipr: 8px;
+  --cellsel: #fbdde455;
+  --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='120' viewBox='130 0 260 120'%3E%3Cg fill='%23f6b9c7' fill-opacity='.45'%3E%3Cpath d='M330 20c9-10 24-6 24 6s-14 18-24 12c-6-4-6-12 0-18z'/%3E%3Cpath d='M368 64c6-9 19-7 20 3s-10 16-18 12c-5-3-6-10-2-15z' fill-opacity='.7'/%3E%3Cpath d='M296 70c5-7 15-5 16 2s-8 12-14 9c-4-2-5-7-2-11z'/%3E%3Cpath d='M250 28c4-5 11-4 12 2s-6 9-10 7c-3-2-4-6-2-9z' fill-opacity='.6'/%3E%3C/g%3E%3C/svg%3E") no-repeat right 6px bottom 10px;
+}
+#jstage #jcal[data-skin=blossom] .month-matrix .jcell.today .jnum { border-radius: 50% 50% 50% 14%; }
+#jstage #jcal[data-skin=blossom] .jviewtoggle { --vc: #df7590; }
