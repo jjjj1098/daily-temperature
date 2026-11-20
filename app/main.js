@@ -179,7 +179,8 @@ import './skin.css';
   syncAddLabel();
   const mood=moods[date],d=asDate(date);
   el('jmoodlabel').textContent=(d.getMonth()+1)+'월 '+d.getDate()+'일의 기분'+(mood?'　'+mood.emoji+' '+mood.name:'');
-  el('jmoodaction').textContent=mood?'변경 ›':'＋ 기분 남기기';
+  el('jmoodaction').textContent=mood?'한 줄 수정':'＋ 오늘의 한 줄';
+  const line=el('jmoodline');line.hidden=!mood;if(mood){line.querySelector('span').textContent=mood.emoji;line.querySelector('b').textContent=mood.note||mood.name;}
   el('jshowmood').checked=showMood;
   el('jlegend').innerHTML=labels.map((label,i)=>'<li><button type="button" class="jcatfilter" data-cat-toggle="'+i+'" aria-pressed="'+!hiddenCats.has(i)+'" style="--ec:'+colors[i]+'">'+esc(label)+'</button></li>').join('');
   root.dataset.os=os;root.dataset.screen=screen;root.dataset.view=String(view);
@@ -661,41 +662,35 @@ import './skin.css';
   };
  }
  function moodEditor(k){
+  // 기분 = 이모지 하나 + 한 줄 일기(최대 NOTE_MAX자). 여러 줄 메모와 구분되도록 한 줄만 받는다.
+  const NOTE_MAX=30;
   const options=[['😊','기뻐요'],['🥰','설레요'],['😌','평온해요'],['😐','무난해요'],['😴','피곤해요'],['😢','슬퍼요'],['😟','걱정돼요'],['😤','화나요']];
   const prior=moods[k], day=asDate(k);
+  // 예전에 직접 넣은 이모지는 선택지 맨 앞에 그대로 보여 준다
+  if(prior&&!options.some(([emoji,name])=>emoji===prior.emoji&&name===prior.name))options.unshift([prior.emoji,prior.name]);
   let selected=prior?options.findIndex(([emoji,name])=>emoji===prior.emoji&&name===prior.name):-1;
-  const custom=prior&&selected<0?prior.emoji:'';
-  const choices=options.map(([emoji,name],i)=>'<button type="button" data-mood-index="'+i+'" aria-pressed="'+(selected===i)+'"><span aria-hidden="true">'+emoji+'</span><span>'+name+'</span></button>').join('');
-  panel('하루의 기분','<form id="jmoodform"><p class="jmoodstamp">'+day.getFullYear()+'년 '+(day.getMonth()+1)+'월 '+day.getDate()+'일 '+days[day.getDay()]+'요일</p><div class="jmoodchoices" role="group" aria-label="기분 선택">'+choices+'</div><label class="jmoodcustom">내 이모지<input name="customEmoji" aria-describedby="jmooderror" autocomplete="off" placeholder="원하는 이모지 한 개" value="'+esc(custom)+'"></label><p id="jmooderror" role="alert"></p><footer>'+(prior?'<button type="button" id="jmoodremove">기분 지우기</button>':'')+'<button type="button" data-act="close">취소</button><button class="jprimary" type="submit">저장</button></footer></form>');
-  const form=el('jmoodform'),input=form.elements.customEmoji,error=el('jmooderror');
+  const choices=options.map(([emoji,name],i)=>'<button type="button" data-mood-index="'+i+'" aria-pressed="'+(selected===i)+'"><span aria-hidden="true">'+emoji+'</span><span>'+esc(name)+'</span></button>').join('');
+  const note=typeof prior?.note==='string'?prior.note:'';
+  panel('오늘의 한 줄','<form id="jmoodform"><p class="jmoodstamp">'+day.getFullYear()+'년 '+(day.getMonth()+1)+'월 '+day.getDate()+'일 '+days[day.getDay()]+'요일</p><div class="jmoodchoices" role="group" aria-label="기분 선택">'+choices+'</div><label class="jmoodnote"><span>한 줄 일기</span><input name="note" maxlength="'+NOTE_MAX+'" enterkeyhint="done" autocomplete="off" placeholder="오늘을 한 줄로 남겨 보세요" value="'+esc(note)+'"><small aria-live="polite"><b>'+[...note].length+'</b>/'+NOTE_MAX+'</small></label><p id="jmooderror" role="alert"></p><footer>'+(prior?'<button type="button" id="jmoodremove">지우기</button>':'')+'<button type="button" data-act="close">취소</button><button class="jprimary" type="submit">저장</button></footer></form>');
+  const form=el('jmoodform'),input=form.elements.note,error=el('jmooderror'),count=form.querySelector('.jmoodnote b');
   function choose(index){
    selected=index;
    form.querySelectorAll('[data-mood-index]').forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
-   error.textContent='';input.removeAttribute('aria-invalid');
+   error.textContent='';
   }
   form.querySelector('.jmoodchoices').onclick=ev=>{
    const choice=ev.target.closest('[data-mood-index]');if(!choice)return;
-   input.value='';choose(Number(choice.dataset.moodIndex));
+   choose(Number(choice.dataset.moodIndex));
   };
-  input.oninput=()=>choose(-1);
+  // 붙여넣기로 줄바꿈이 들어와도 한 줄로
+  input.oninput=()=>{const one=input.value.replace(/\s*\n\s*/g,' ');if(one!==input.value)input.value=one;count.textContent=[...input.value].length;};
   if(prior)el('jmoodremove').onclick=()=>{delete moods[k];close();render();persist()};
   form.onsubmit=ev=>{
    ev.preventDefault();
-   const typed=input.value.trim();
-   let entry;
-   if(typed){
-    const first=globalThis.Intl?.Segmenter?new Intl.Segmenter('ko',{granularity:'grapheme'}).segment(typed)[Symbol.iterator]().next().value?.segment:null;
-    const single=first?first===typed:/^(?:\p{Regional_Indicator}{2}|[#*0-9]\uFE0F?\u20E3|\p{Extended_Pictographic}\uFE0F?\p{Emoji_Modifier}?(?:\u200D\p{Extended_Pictographic}\uFE0F?\p{Emoji_Modifier}?)*)$/u.test(typed);
-    if(!single||!/(?:\p{Extended_Pictographic}|\p{Regional_Indicator}{2}|[#*0-9]\uFE0F?\u20E3)/u.test(typed)){
-     error.textContent='이모지 하나를 입력해 주세요.';input.setAttribute('aria-invalid','true');input.focus();return;
-    }
-    entry={emoji:typed,name:'내 이모지'};
-   }else if(selected>=0){
-    entry={emoji:options[selected][0],name:options[selected][1]};
-   }else{
-    error.textContent='기분을 고르거나 내 이모지를 입력해 주세요.';return;
-   }
-   moods[k]=entry;close();render();persist();
+   if(selected<0){error.textContent='오늘의 기분을 하나 골라 주세요.';return;}
+   const text=input.value.trim().slice(0,NOTE_MAX);
+   moods[k]={emoji:options[selected][0],name:options[selected][1],...(text?{note:text}:{})};
+   close();render();persist();
   };
   form.querySelector('[data-mood-index="'+Math.max(0,selected)+'"]').focus({preventScroll:true});
  }

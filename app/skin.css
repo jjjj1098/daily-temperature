@@ -242,3 +242,22 @@
 }
 #jstage #jcal[data-skin=blossom] .month-matrix .jcell.today .jnum { border-radius: 50% 50% 50% 14%; }
 #jstage #jcal[data-skin=blossom] .jviewtoggle { --vc: #df7590; }
+
+/* ───────── 오늘의 한 줄 (기분 이모지 + 한 줄 일기) ───────── */
+#jstage #jcal .jmoodchoices button { border-radius: 14px; border-color: var(--rule); color: var(--sub); }
+#jstage #jcal .jmoodchoices button[aria-pressed=true] { border-color: var(--deep); color: var(--deep); background: color-mix(in srgb, var(--deep) 9%, var(--paper)); }
+#jstage #jcal .jmoodnote { display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; margin-top: 16px; align-items: center; }
+#jstage #jcal .jmoodnote > span { grid-column: 1 / -1; font-size: 13px; color: var(--sub); }
+#jstage #jcal .jmoodnote input {
+  grid-column: 1 / -1; width: 100%; min-width: 0; padding: 12px 14px; font-size: 16px;
+  border: 1px solid var(--rule); border-radius: 12px; background: var(--wash); color: var(--ink);
+}
+#jstage #jcal .jmoodnote input:focus { border-color: var(--deep); background: var(--paper); outline: 0; }
+#jstage #jcal .jmoodnote small { grid-column: 2; justify-self: end; font-size: 12px; color: var(--sub); }
+#jstage #jcal #jmoodline {
+  display: flex; align-items: center; gap: 8px; width: 100%; margin: 2px 0 8px; padding: 10px 12px;
+  border-radius: 12px; background: var(--wash); text-align: left; color: var(--ink);
+}
+#jstage #jcal #jmoodline[hidden] { display: none; }
+#jstage #jcal #jmoodline span { font-size: 18px; line-height: 1; }
+#jstage #jcal #jmoodline b { font-weight: 500; font-size: 14px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

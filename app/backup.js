@@ -88,7 +88,8 @@ export function parseBackup(text) {
   const moods = state.moods === undefined ? {} : state.moods;
   requireValid(isRecord(moods) && Object.entries(moods).every(([date, mood]) =>
     isDate(date) && isRecord(mood) && typeof mood.name === 'string' && mood.name.trim()
-    && typeof mood.emoji === 'string' && mood.emoji.trim()), '날짜별 기분 기록을 확인해 주세요.');
+    && typeof mood.emoji === 'string' && mood.emoji.trim()
+    && (mood.note === undefined || typeof mood.note === 'string' && mood.note.length <= 30)), '날짜별 기분 기록을 확인해 주세요.');
   const modules = state.modules ?? (range(state.type, 0, 3) ? [state.type] : [0, 2]);
   const filter = typeof state.filter === 'string' && state.filter !== '전체' ? labels.indexOf(state.filter) : state.filter ?? '전체';
   requireValid(Array.isArray(modules) && modules.every(index => range(index, 0, 3)) && new Set(modules).size === modules.length
