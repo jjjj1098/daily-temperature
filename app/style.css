@@ -442,3 +442,7 @@ body { background: #f0f2ef; background: light-dark(#f0f2ef, #121819); }
 #jcal .jlegendbar .jarrows { border:0; background:var(--wash); }
 #jcal .jlegendbar .jarrows button { color:var(--ink); }
 #jcal .jlegendbar .jarrows button[data-act=today] { font-weight:600; }
+/* 제목을 라벨 줄 바로 위로: 위에 붙지 않고 오른쪽 버튼들과 같은 높이 가운데에 놓는다 */
+#jcal .jtoolbar { align-items:center; padding-top:calc(var(--safe-top) + 14px); padding-bottom:2px; }
+#jcal .month-jump { min-height:0; height:44px; padding-top:7px; }
+#jcal .jlegendbar { padding-top:4px; }
